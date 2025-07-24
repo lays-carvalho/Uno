@@ -1,12 +1,19 @@
 /*
  * [2025-07-23] João Neto:
- * Exemplo de Database que podemos utilizar
+ * Conexão com o banco de dados MongoDB usando Mongoose
  */
-const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  logging: false,
-});
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-module.exports = sequelize;
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/capstone';
+
+async function connectDB() {
+  if (mongoose.connection.readyState === 0) {
+    await mongoose.connect(mongoURI);
+    console.log('✅ Conectado ao MongoDB');
+  }
+}
+
+module.exports = connectDB;
+
