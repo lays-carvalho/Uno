@@ -1,4 +1,3 @@
-//handlers/playerHandler.js
 const service = require("../services/playerService");
 
 async function createPlayer(req, res) {
@@ -60,5 +59,5 @@ module.exports = {
   getPlayer,
   updatePlayer,
   deletePlayer,
-  getAllPlayers
+  getAllPlayers,
 };

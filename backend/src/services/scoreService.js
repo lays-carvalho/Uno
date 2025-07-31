@@ -8,7 +8,7 @@ async function createScore(data) {
     id: id.toString(),
     playerId: data.playerId,
     gameId: data.gameId,
-    score: data.score
+    score: data.score,
   };
 
   return await repository.saveScore(score);
@@ -35,5 +35,5 @@ module.exports = {
   getScore,
   updateScore,
   deleteScore,
-  getAllScores
+  getAllScores,
 };

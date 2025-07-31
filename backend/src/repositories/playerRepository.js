@@ -1,4 +1,3 @@
-//repositories/playerRepository.js
 const Player = require("../models/playerModel");
 
 async function savePlayer(playerData) {
@@ -27,5 +26,5 @@ module.exports = {
   findPlayerById,
   updatePlayerById,
   deletePlayerById,
-  findAllPlayers
+  findAllPlayers,
 };
