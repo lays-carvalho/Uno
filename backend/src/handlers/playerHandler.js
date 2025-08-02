@@ -1,4 +1,8 @@
 const service = require("../services/playerService");
+const redis = require("redis");
+const redisClient = redis.createClient();
+
+redisClient.connect();
 
 async function createPlayer(req, res) {
   try {
@@ -65,6 +69,17 @@ async function login(req, res) {
   }
 }
 
+async function logout(req, res) {
+  const { accessToken } = req.body;
+
+  try {
+    await service.logout(accessToken);
+    res.status(200).json({ message: "User logged out successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createPlayer,
   getPlayer,
@@ -72,4 +87,5 @@ module.exports = {
   deletePlayer,
   getAllPlayers,
   login,
+  logout,
 };

@@ -2,6 +2,7 @@ const getNextId = require("../utils/getNextId");
 const repository = require("../repositories/playerRepository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const BlacklistedToken = require("../models/tokensModel");
 
 async function createPlayer(data) {
   const id = await getNextId("playerid");
@@ -58,6 +59,16 @@ async function login(email, password) {
   return token;
 }
 
+async function logout(accessToken) {
+  const decoded = jwt.decode(accessToken);
+  const exp = decoded.exp * 1000;
+
+  return await BlacklistedToken.create({
+    token: accessToken,
+    expiresAt: new Date(exp),
+  });
+}
+
 module.exports = {
   createPlayer,
   getPlayer,
@@ -65,4 +76,5 @@ module.exports = {
   deletePlayer,
   getAllPlayers,
   login,
+  logout,
 };
