@@ -8,6 +8,7 @@ async function createGame(data) {
   const game = {
     id: id.toString(),
     title: data.title,
+    creator: data.creator,
     status: data.status,
     maxPlayers: data.maxPlayers,
   };
@@ -49,6 +50,54 @@ async function joinGame(gameId, accessToken) {
   return await repository.saveGame(game);
 }
 
+async function startGame(gameId, accessToken) {
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const userId = decoded.id;
+
+  const game = await repository.findGameById(gameId);
+  if (!game) {
+    throw new Error("Game not found");
+  }
+
+  if (game.creator !== userId) {
+    throw new Error("Only the game creator can start the game");
+  }
+
+  const allReady = game.players.every((playerId) =>
+    game.readyPlayers.includes(playerId),
+  );
+
+  if (!allReady) {
+    throw new Error("Not all players are ready");
+  }
+
+  game.status = "active";
+
+  return repository.saveGame(game);
+}
+
+async function markAsReady(gameId, accessToken) {
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const userId = decoded.id;
+
+  const game = await repository.findGameById(gameId);
+  if (!game) {
+    throw new Error("Game not found");
+  }
+
+  if (!game.players.includes(userId)) {
+    throw new Error("User not in game");
+  }
+
+  if (game.readyPlayers.includes(userId)) {
+    throw new Error("User already has been marked as ready");
+  }
+
+  game.readyPlayers.push(userId);
+
+  return await repository.saveGame(game);
+}
+
 module.exports = {
   createGame,
   getGame,
@@ -56,4 +105,6 @@ module.exports = {
   deleteGame,
   getAllGames,
   joinGame,
+  startGame,
+  markAsReady,
 };

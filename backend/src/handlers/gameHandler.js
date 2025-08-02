@@ -68,6 +68,28 @@ async function joinGame(req, res) {
   }
 }
 
+async function startGame(req, res) {
+  try {
+    const { gameId, accessToken } = req.body;
+    const result = await service.startGame(gameId, accessToken);
+    res.status(200).json({ message: "Game started successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function markAsReady(req, res) {
+  try {
+    const { gameId, accessToken } = req.body;
+
+    await service.markAsReady(gameId, accessToken);
+
+    res.json({ message: "Player marked as ready" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createGame,
   getGame,
@@ -75,4 +97,6 @@ module.exports = {
   deleteGame,
   getAllGames,
   joinGame,
+  startGame,
+  markAsReady,
 };

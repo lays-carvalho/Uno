@@ -8,5 +8,7 @@ router.get("/games/:id", handler.getGame);
 router.put("/games/:id", handler.updateGame);
 router.delete("/games/:id", handler.deleteGame);
 router.post("/games/joinGame", handler.joinGame);
+router.post("/games/markAsReady", handler.markAsReady);
+router.post("/games/startGame", handler.startGame);
 
 module.exports = router;
