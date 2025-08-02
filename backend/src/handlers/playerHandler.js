@@ -54,6 +54,17 @@ async function getAllPlayers(req, res) {
   }
 }
 
+async function getPlayerInfo(req, res) {
+  const { accessToken } = req.body;
+
+  try {
+    const player = await service.getPlayerInfo(accessToken);
+    res.status(200).json(player);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 async function login(req, res) {
   const { email, password } = req.body;
 
@@ -82,6 +93,7 @@ module.exports = {
   updatePlayer,
   deletePlayer,
   getAllPlayers,
+  getPlayerInfo,
   login,
   logout,
 };

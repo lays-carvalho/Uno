@@ -40,6 +40,22 @@ async function getAllPlayers() {
   return await repository.findAllPlayers();
 }
 
+async function getPlayerInfo(accessToken) {
+  if (!accessToken) {
+    throw new Error("Access token is required");
+  }
+
+  const isBlacklisted = await BlacklistedToken.findOne({ token: accessToken });
+  if (isBlacklisted) {
+    throw new Error("Token is invalidated");
+  }
+
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const player = await getPlayer(decoded.id);
+
+  return player;
+}
+
 async function login(email, password) {
   const user = await repository.findPlayerByEmail(email);
   const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -48,13 +64,9 @@ async function login(email, password) {
     throw new Error("Invalid credentials");
   }
 
-  const token = jwt.sign(
-    { id: user.id, email: user.email },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "6h",
-    },
-  );
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "6h",
+  });
 
   return token;
 }
@@ -75,6 +87,7 @@ module.exports = {
   updatePlayer,
   deletePlayer,
   getAllPlayers,
+  getPlayerInfo,
   login,
   logout,
 };

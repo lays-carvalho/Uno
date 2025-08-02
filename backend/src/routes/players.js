@@ -9,5 +9,6 @@ router.put("/players/:id", handler.updatePlayer);
 router.delete("/players/:id", handler.deletePlayer);
 router.post("/players/login", handler.login);
 router.post("/players/logout", handler.logout);
+router.post("/players/me", handler.getPlayerInfo);
 
 module.exports = router;
