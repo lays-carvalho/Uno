@@ -3,7 +3,9 @@ const service = require("../services/gameService");
 async function createGame(req, res) {
   try {
     const game = await service.createGame(req.body);
-    res.status(201).json(game);
+    res
+      .status(201)
+      .json({ message: "Game created successfully", game_id: game.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,5 +61,5 @@ module.exports = {
   getGame,
   updateGame,
   deleteGame,
-  getAllGames
+  getAllGames,
 };
