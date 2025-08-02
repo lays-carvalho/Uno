@@ -1,8 +1,4 @@
 const service = require("../services/playerService");
-const redis = require("redis");
-const redisClient = redis.createClient();
-
-redisClient.connect();
 
 async function createPlayer(req, res) {
   try {
