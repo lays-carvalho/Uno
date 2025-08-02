@@ -56,10 +56,23 @@ async function getAllGames(req, res) {
   }
 }
 
+async function joinGame(req, res) {
+  try {
+    const { gameId, accessToken } = req.body;
+
+    await service.joinGame(gameId, accessToken);
+
+    return res.json({ message: "User joined the game successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createGame,
   getGame,
   updateGame,
   deleteGame,
   getAllGames,
+  joinGame,
 };

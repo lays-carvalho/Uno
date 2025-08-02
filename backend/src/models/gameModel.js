@@ -5,7 +5,8 @@ const gameSchema = new mongoose.Schema({
   title: { type: String, required: true },
   status: { type: String, enum: ["active", "inactive"], required: true },
   maxPlayers: { type: Number, required: true },
-  createdAt: { type: Date, default: Date.now }
+  players: [{ type: mongoose.Schema.Types.Int32, ref: "Player" }],
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Game", gameSchema);
