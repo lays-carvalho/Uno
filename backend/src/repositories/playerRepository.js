@@ -9,6 +9,10 @@ async function findPlayerById(id) {
   return await Player.findOne({ id });
 }
 
+async function findPlayerByEmail(email) {
+  return await Player.findOne({ email });
+}
+
 async function updatePlayerById(id, updates) {
   return await Player.findOneAndUpdate({ id }, updates, { new: true });
 }
@@ -27,4 +31,5 @@ module.exports = {
   updatePlayerById,
   deletePlayerById,
   findAllPlayers,
+  findPlayerByEmail,
 };

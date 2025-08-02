@@ -2,10 +2,10 @@ const service = require("../services/playerService");
 
 async function createPlayer(req, res) {
   try {
-    const player = await service.createPlayer(req.body);
-    res.status(201).json(player);
+    await service.createPlayer(req.body);
+    res.status(201).json({ message: "Player created successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(409).json({ error: error.message });
   }
 }
 

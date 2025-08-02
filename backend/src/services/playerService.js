@@ -2,13 +2,18 @@ const getNextId = require("../utils/getNextId");
 const repository = require("../repositories/playerRepository");
 
 async function createPlayer(data) {
-  const id = await getNextId("playerid"); // gera próximo número
+  const id = await getNextId("playerid");
+  const playerExists = await repository.findPlayerByEmail(data.email);
+
+  if (playerExists) {
+    throw new Error("User already exists with this email.");
+  }
 
   const player = {
-    id: id.toString(), // ou só id, se quiser número no JSON
+    id: id.toString(),
     name: data.name,
-    age: data.age,
     email: data.email,
+    password: data.password,
   };
 
   return await repository.savePlayer(player);
