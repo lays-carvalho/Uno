@@ -54,10 +54,22 @@ async function getAllPlayers(req, res) {
   }
 }
 
+async function login(req, res) {
+  const { email, password } = req.body;
+
+  try {
+    const token = await service.login(email, password);
+    res.json({ message: "Login successful", accessToken: token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createPlayer,
   getPlayer,
   updatePlayer,
   deletePlayer,
   getAllPlayers,
+  login,
 };
