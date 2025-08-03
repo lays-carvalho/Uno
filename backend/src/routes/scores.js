@@ -7,5 +7,7 @@ router.get("/scores", handler.getAllScores);
 router.get("/scores/:id", handler.getScore);
 router.put("/scores/:id", handler.updateScore);
 router.delete("/scores/:id", handler.deleteScore);
+router.post("/scores/byGame", handler.getScoresByGameId); //14
+
 
 module.exports = router;

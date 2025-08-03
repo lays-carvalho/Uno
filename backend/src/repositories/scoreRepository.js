@@ -21,10 +21,16 @@ async function findAllScores() {
   return await Score.find({});
 }
 
+async function findScoresByGameId(gameId) {
+  return await Score.find({ gameId });
+}
+
+
 module.exports = {
   saveScore,
   findScoreById,
   updateScoreById,
   deleteScoreById,
-  findAllScores
+  findAllScores,
+  findScoresByGameId
 };

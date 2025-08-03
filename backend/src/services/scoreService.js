@@ -30,10 +30,26 @@ async function getAllScores() {
   return await repository.findAllScores();
 }
 
+async function getScoresByGameId(gameId) {
+  const scoreDocs = await repository.findScoresByGameId(gameId);
+  const scores = {};
+
+  scoreDocs.forEach((doc, index) => {
+    const label = `Player${index + 1} - ${doc.playerId}`;
+    scores[label] = doc.score;
+  });
+
+  return {
+    game_id: gameId,
+    scores
+  };
+}
+
 module.exports = {
   createScore,
   getScore,
   updateScore,
   deleteScore,
   getAllScores,
+  getScoresByGameId
 };

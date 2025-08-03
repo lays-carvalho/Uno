@@ -54,10 +54,29 @@ async function getAllScores(req, res) {
   }
 }
 
+async function getScoresByGameId(req, res) {
+  try {
+    const { game_id } = req.body;
+    if (!game_id) {
+      return res.status(400).json({ error: "game_id é obrigatório" });
+    }
+
+    const result = await service.getScoresByGameId(game_id);
+    if (!result || Object.keys(result.scores).length === 0) {
+      return res.status(404).json({ message: "Nenhuma pontuação encontrada para este jogo" });
+    }
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createScore,
   getScore,
   updateScore,
   deleteScore,
-  getAllScores
+  getAllScores,
+  getScoresByGameId
 };
