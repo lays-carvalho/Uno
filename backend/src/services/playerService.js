@@ -1,0 +1,93 @@
+const getNextId = require("../utils/getNextId");
+const repository = require("../repositories/playerRepository");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const BlacklistedToken = require("../models/tokensModel");
+
+async function createPlayer(data) {
+  const id = await getNextId("playerid");
+  const playerExists = await repository.findPlayerByEmail(data.email);
+
+  if (playerExists) {
+    throw new Error("User already exists with this email.");
+  }
+
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+
+  const player = {
+    id: id.toString(),
+    name: data.name,
+    email: data.email,
+    password: hashedPassword,
+  };
+
+  return await repository.savePlayer(player);
+}
+
+async function getPlayer(id) {
+  return await repository.findPlayerById(id);
+}
+
+async function updatePlayer(id, updates) {
+  return await repository.updatePlayerById(id, updates);
+}
+
+async function deletePlayer(id) {
+  return await repository.deletePlayerById(id);
+}
+
+async function getAllPlayers() {
+  return await repository.findAllPlayers();
+}
+
+async function getPlayerInfo(accessToken) {
+  if (!accessToken) {
+    throw new Error("Access token is required");
+  }
+
+  const isBlacklisted = await BlacklistedToken.findOne({ token: accessToken });
+  if (isBlacklisted) {
+    throw new Error("Token is invalidated");
+  }
+
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const player = await getPlayer(decoded.id);
+
+  return player;
+}
+
+async function login(email, password) {
+  const user = await repository.findPlayerByEmail(email);
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!user || !isPasswordValid) {
+    throw new Error("Invalid credentials");
+  }
+
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "6h",
+  });
+
+  return token;
+}
+
+async function logout(accessToken) {
+  const decoded = jwt.decode(accessToken);
+  const exp = decoded.exp * 1000;
+
+  return await BlacklistedToken.create({
+    token: accessToken,
+    expiresAt: new Date(exp),
+  });
+}
+
+module.exports = {
+  createPlayer,
+  getPlayer,
+  updatePlayer,
+  deletePlayer,
+  getAllPlayers,
+  getPlayerInfo,
+  login,
+  logout,
+};
