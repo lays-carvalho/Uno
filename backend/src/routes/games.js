@@ -14,6 +14,8 @@ router.post("/games/leave", handler.leaveGame); //8
 router.post("/games/end", handler.endGame); //9
 router.post("/games/state", handler.getGameState); //10
 router.post("/games/players", handler.getPlayersInGame); //11
+router.post("/games/currentPlayer", handler.getCurrentPlayer); //12
+
 
 
 module.exports = router;

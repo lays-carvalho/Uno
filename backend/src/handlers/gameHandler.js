@@ -130,6 +130,16 @@ async function getPlayersInGame(req, res) {
   }
 }
 
+async function getCurrentPlayer(req, res) {
+  try {
+    const { game_id } = req.body;
+    const result = await service.getCurrentPlayer(game_id);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 
 module.exports = {
   createGame,
@@ -143,5 +153,6 @@ module.exports = {
   leaveGame,
   endGame,
   getGameState,
-  getPlayersInGame
+  getPlayersInGame,
+  getCurrentPlayer
 };

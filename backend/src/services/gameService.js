@@ -50,6 +50,7 @@ async function joinGame(gameId, accessToken) {
   return await repository.saveGame(game);
 }
 
+
 async function startGame(gameId, accessToken) {
   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
   const userId = decoded.id;
@@ -71,9 +72,15 @@ async function startGame(gameId, accessToken) {
     throw new Error("Not all players are ready");
   }
 
-  game.status = "active";
+  // Atualizar o status e currentPlayer usando updateGameById
+  const updatedGame = await repository.updateGameById(gameId, {
+    status: "active",
+    currentPlayer: game.players[0],
+  });
 
-  return repository.saveGame(game);
+  return updatedGame;
+
+
 }
 
 async function markAsReady(gameId, accessToken) {
@@ -181,6 +188,18 @@ async function getPlayersInGame(gameId) {
   };
 }
 
+async function getCurrentPlayer(gameId) {
+  const game = await repository.findGameById(gameId);
+  if (!game) {
+    throw new Error("Game not found");
+  }
+
+  return {
+    game_id: game.id,
+    current_player: game.currentPlayer,
+  };
+}
+
 
 module.exports = {
   createGame,
@@ -194,5 +213,6 @@ module.exports = {
   leaveGame,
   endGame,
   getGameState,
-  getPlayersInGame
+  getPlayersInGame,
+  getCurrentPlayer
 };

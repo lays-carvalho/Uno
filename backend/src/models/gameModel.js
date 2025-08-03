@@ -14,6 +14,7 @@ const gameSchema = new mongoose.Schema({
   readyPlayers: [{ type: Number }],
   leftPlayers: [{ type: Number }], 
   createdAt: { type: Date, default: Date.now },
+  currentPlayer: { type: Number }
 });
 
 module.exports = mongoose.model("Game", gameSchema);
