@@ -12,6 +12,7 @@ const gameSchema = new mongoose.Schema({
   players: [{ type: mongoose.Schema.Types.Int32, ref: "Player" }],
   creator: { type: Number, required: true },
   readyPlayers: [{ type: Number }],
+  leftPlayers: [{ type: Number }], 
   createdAt: { type: Date, default: Date.now },
 });
 

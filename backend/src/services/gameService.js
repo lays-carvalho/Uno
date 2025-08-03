@@ -98,6 +98,90 @@ async function markAsReady(gameId, accessToken) {
   return await repository.saveGame(game);
 }
 
+
+async function leaveGame(gameId, accessToken) {
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const userId = decoded.id;
+
+  const game = await repository.findGameById(gameId);
+  if (!game) throw new Error("Game not found");
+
+  if (game.status !== "active" && game.status !== "not_started") {
+    throw new Error("Game is not in progress");
+  }
+
+  if (!game.players.includes(userId)) {
+    throw new Error("User not in the game");
+  }
+
+  
+  if (game.leftPlayers.includes(userId)) {
+    throw new Error("User already left the game");
+  }
+
+  
+  game.leftPlayers.push(userId);
+
+  
+  game.readyPlayers = game.readyPlayers.filter((id) => id !== userId);
+
+ 
+  const allLeft = game.players.every((id) =>
+    game.leftPlayers.includes(id)
+  );
+
+  if (allLeft) {
+    game.status = "inactive";
+  }
+
+  return await repository.saveGame(game);
+}
+
+
+
+async function endGame(gameId, accessToken) {
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const userId = decoded.id;
+
+  const game = await repository.findGameById(gameId);
+  if (!game) throw new Error("Game not found");
+
+  if (game.creator !== userId) {
+    throw new Error("Only the game creator can end the game");
+  }
+
+  if (game.status !== "active") {
+    throw new Error("Game is not active");
+  }
+
+  game.status = "inactive";
+
+  return await repository.saveGame(game);
+}
+
+async function getGameState(gameId) {
+  const game = await repository.findGameById(gameId);
+  if (!game) throw new Error("Game not found");
+
+  return {
+    game_id: game.id,
+    state: game.status === "active" ? "in_progress" : game.status,
+  };
+}
+
+
+async function getPlayersInGame(gameId) {
+  const game = await repository.findGameById(gameId);
+  if (!game) throw new Error("Game not found");
+
+  return {
+    game_id: game.id,
+    players: game.players,
+    left_players: game.leftPlayers, 
+  };
+}
+
+
 module.exports = {
   createGame,
   getGame,
@@ -107,4 +191,8 @@ module.exports = {
   joinGame,
   startGame,
   markAsReady,
+  leaveGame,
+  endGame,
+  getGameState,
+  getPlayersInGame
 };

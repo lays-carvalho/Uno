@@ -90,6 +90,47 @@ async function markAsReady(req, res) {
   }
 }
 
+async function leaveGame(req, res) {
+  try {
+    const { game_id, access_token } = req.body;
+    await service.leaveGame(game_id, access_token);
+    res.json({ message: "User left the game successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function endGame(req, res) {
+  try {
+    const { game_id, access_token } = req.body;
+    await service.endGame(game_id, access_token);
+    res.json({ message: "Game ended successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function getGameState(req, res) {
+  try {
+    const { game_id } = req.body;
+    const state = await service.getGameState(game_id);
+    res.json(state);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function getPlayersInGame(req, res) {
+  try {
+    const { game_id } = req.body;
+    const result = await service.getPlayersInGame(game_id);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
 module.exports = {
   createGame,
   getGame,
@@ -99,4 +140,8 @@ module.exports = {
   joinGame,
   startGame,
   markAsReady,
+  leaveGame,
+  endGame,
+  getGameState,
+  getPlayersInGame
 };
