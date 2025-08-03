@@ -21,10 +21,16 @@ async function findAllCards() {
   return await Card.find({});
 }
 
+async function getTopDiscardCard(gameId) {
+  return await Card.findOne({ gameId })
+    .sort({ createdAt: -1 }); // pega a carta mais recente
+}
+
 module.exports = {
   saveCard,
   findCardById,
   updateCardById,
   deleteCardById,
-  findAllCards
+  findAllCards,
+  getTopDiscardCard
 };

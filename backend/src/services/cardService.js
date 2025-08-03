@@ -30,10 +30,31 @@ async function getAllCards() {
   return await repository.findAllCards();
 }
 
+async function getTopCard(gameId) {
+  const card = await repository.getTopDiscardCard(gameId);
+
+  if (!card) {
+    throw new Error("No card found for this game");
+  }
+
+  return {
+    game_id: parseInt(gameId),
+    top_card: {
+      id: card.id,
+      color: card.color,
+      value: card.value,
+      gameId: card.gameId,
+      createdAt: card.createdAt,
+    },
+  };
+}
+
+
 module.exports = {
   createCard,
   getCard,
   updateCard,
   deleteCard,
-  getAllCards
+  getAllCards,
+  getTopCard
 };

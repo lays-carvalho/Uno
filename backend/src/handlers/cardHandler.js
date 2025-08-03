@@ -54,10 +54,22 @@ async function getAllCards(req, res) {
   }
 }
 
+async function getTopCard(req, res) {
+  try {
+    const { game_id } = req.body;
+    const result = await service.getTopCard(game_id);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
 module.exports = {
   createCard,
   getCard,
   updateCard,
   deleteCard,
-  getAllCards
+  getAllCards,
+  getTopCard
 };
