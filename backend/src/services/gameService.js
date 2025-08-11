@@ -50,7 +50,6 @@ async function joinGame(gameId, accessToken) {
   return await repository.saveGame(game);
 }
 
-
 async function startGame(gameId, accessToken) {
   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
   const userId = decoded.id;
@@ -64,6 +63,10 @@ async function startGame(gameId, accessToken) {
     throw new Error("Only the game creator can start the game");
   }
 
+  if (game.players.length < 2) {
+    throw new Error("Insufficient number of players");
+  }
+
   const allReady = game.players.every((playerId) =>
     game.readyPlayers.includes(playerId),
   );
@@ -72,15 +75,12 @@ async function startGame(gameId, accessToken) {
     throw new Error("Not all players are ready");
   }
 
-  // Atualizar o status e currentPlayer usando updateGameById
   const updatedGame = await repository.updateGameById(gameId, {
     status: "active",
     currentPlayer: game.players[0],
   });
 
   return updatedGame;
-
-
 }
 
 async function markAsReady(gameId, accessToken) {
@@ -105,7 +105,6 @@ async function markAsReady(gameId, accessToken) {
   return await repository.saveGame(game);
 }
 
-
 async function leaveGame(gameId, accessToken) {
   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
   const userId = decoded.id;
@@ -121,21 +120,15 @@ async function leaveGame(gameId, accessToken) {
     throw new Error("User not in the game");
   }
 
-  
   if (game.leftPlayers.includes(userId)) {
     throw new Error("User already left the game");
   }
 
-  
   game.leftPlayers.push(userId);
 
-  
   game.readyPlayers = game.readyPlayers.filter((id) => id !== userId);
 
- 
-  const allLeft = game.players.every((id) =>
-    game.leftPlayers.includes(id)
-  );
+  const allLeft = game.players.every((id) => game.leftPlayers.includes(id));
 
   if (allLeft) {
     game.status = "inactive";
@@ -143,8 +136,6 @@ async function leaveGame(gameId, accessToken) {
 
   return await repository.saveGame(game);
 }
-
-
 
 async function endGame(gameId, accessToken) {
   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
@@ -176,7 +167,6 @@ async function getGameState(gameId) {
   };
 }
 
-
 async function getPlayersInGame(gameId) {
   const game = await repository.findGameById(gameId);
   if (!game) throw new Error("Game not found");
@@ -184,7 +174,7 @@ async function getPlayersInGame(gameId) {
   return {
     game_id: game.id,
     players: game.players,
-    left_players: game.leftPlayers, 
+    left_players: game.leftPlayers,
   };
 }
 
@@ -200,7 +190,6 @@ async function getCurrentPlayer(gameId) {
   };
 }
 
-
 module.exports = {
   createGame,
   getGame,
@@ -214,5 +203,5 @@ module.exports = {
   endGame,
   getGameState,
   getPlayersInGame,
-  getCurrentPlayer
+  getCurrentPlayer,
 };
