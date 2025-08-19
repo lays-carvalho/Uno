@@ -1,15 +1,15 @@
 const service = require("../services/cardService");
 
-async function createCard(req, res) {
+async function createCard(req, res, next) {
   try {
     const card = await service.createCard(req.body);
     res.status(201).json(card);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getCard(req, res) {
+async function getCard(req, res, next) {
   try {
     const card = await service.getCard(req.params.id);
     if (!card) {
@@ -17,11 +17,11 @@ async function getCard(req, res) {
     }
     res.json(card);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function updateCard(req, res) {
+async function updateCard(req, res, next) {
   try {
     const updated = await service.updateCard(req.params.id, req.body);
     if (!updated) {
@@ -29,11 +29,11 @@ async function updateCard(req, res) {
     }
     res.json(updated);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function deleteCard(req, res) {
+async function deleteCard(req, res, next) {
   try {
     const deleted = await service.deleteCard(req.params.id);
     if (!deleted) {
@@ -41,29 +41,28 @@ async function deleteCard(req, res) {
     }
     res.json({ message: "Card deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getAllCards(req, res) {
+async function getAllCards(req, res, next) {
   try {
     const cards = await service.getAllCards();
     res.json(cards);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getTopCard(req, res) {
+async function getTopCard(req, res, next) {
   try {
     const { game_id } = req.body;
     const result = await service.getTopCard(game_id);
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
-
 
 module.exports = {
   createCard,
@@ -71,5 +70,5 @@ module.exports = {
   updateCard,
   deleteCard,
   getAllCards,
-  getTopCard
+  getTopCard,
 };

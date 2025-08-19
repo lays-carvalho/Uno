@@ -1,0 +1,673 @@
+{
+	"info": {
+		"_postman_id": "bb0ccf3d-5a35-43a9-9780-fc8b8859a466",
+		"name": "UNO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22243289"
+	},
+	"item": [
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"teste2\",\r\n    \"email\": \"teste55@example.com\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players/30",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"age\": 23\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/players/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"teste3@example.com\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players/login",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImVtYWlsIjoidGVzdGUzQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU0MTAwMzgzLCJleHAiOjE3NTQxMjE5ODN9.Lk_SES3qbcl37fE3kn8xFe0CVrexW1oDpP0P43PKT8g\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players/logout",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me (player info)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTc1NDkyMjI1NiwiZXhwIjoxNzU0OTQzODU2fQ.uBl8aehb7e7KUH_AXm5Nd3NvAPL9WDN6JXVDe5JyCVU\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/players/me",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"players",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Games",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"UNO\",\r\n    \"creator\": 31,\r\n    \"status\": \"not_started\",\r\n    \"maxPlayers\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Join Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"gameId\": 7,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTc1NDEzNDUyOCwiZXhwIjoxNzU0MTU2MTI4fQ.GLhtQqQzmI-5HjvTnOAjeiyRS0q3zZvpVVFlLqs4Tts\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games/joinGame",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"joinGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"gameId\": 7,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTc1NDEzNDUyOCwiZXhwIjoxNzU0MTU2MTI4fQ.GLhtQqQzmI-5HjvTnOAjeiyRS0q3zZvpVVFlLqs4Tts\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games/startGame",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"startGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Ready",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"gameId\": 7,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTc1NDEzNDUyOCwiZXhwIjoxNzU0MTU2MTI4fQ.GLhtQqQzmI-5HjvTnOAjeiyRS0q3zZvpVVFlLqs4Tts\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games/markAsReady",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"markAsReady"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/games",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/games/8",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"title\": \"UNO - updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/games/6",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cards",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"color\": \"red\",\r\n\"value\": \"5\",\r\n\"gameId\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/cards",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/cards",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/cards/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"cards",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"color\": \"red - updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/cards/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"cards",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/cards/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"cards",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scores",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"playerId\": \"1\",\r\n\"gameId\": \"1\",\r\n\"score\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/scores",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"scores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/scores",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"scores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/scores/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"scores",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"score\": 350\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/scores/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"scores",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{unoURL}}/api/scores/{id}",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"scores",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "unoURL",
+			"value": "http://localhost:3000",
+			"type": "default"
+		}
+	]
+}
