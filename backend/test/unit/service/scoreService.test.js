@@ -1,6 +1,8 @@
 const getNextId = require("../../../src/utils/getNextId");
 const repository = require("../../../src/repositories/scoreRepository");
 const scoreService = require("../../../src/services/scoreService");
+const repoPlayer = require("../../../src/repositories/playerRepository");
+const repoGame = require("../../../src/repositories/gameRepository");
 
 jest.mock("../../../src/utils/getNextId");
 jest.mock("../../../src/repositories/scoreRepository");
@@ -12,20 +14,24 @@ describe("Score Service", () => {
 
   describe("createScore", () => {
     test("should create a score with generated id", async () => {
-      getNextId.mockResolvedValue(10);
-      const data = { playerId: "p1", gameId: "g1", score: 50 };
+      getNextId.mockResolvedValue("10");
+      repoPlayer.findPlayerById = jest
+        .fn()
+        .mockResolvedValue({ id: "1", name: "Test Player" });
+      repoGame.findGameById = jest
+        .fn()
+        .mockResolvedValue({ id: "g1", name: "Test Game" });
+
+      const data = { playerId: "1", gameId: "g1", score: 50 };
       const savedScore = { id: "10", ...data };
       repository.saveScore.mockResolvedValue(savedScore);
 
       const result = await scoreService.createScore(data);
 
       expect(getNextId).toHaveBeenCalledWith("scoreid");
-      expect(repository.saveScore).toHaveBeenCalledWith({
-        id: "10",
-        playerId: "p1",
-        gameId: "g1",
-        score: 50,
-      });
+      expect(repoPlayer.findPlayerById).toHaveBeenCalledWith("1");
+      expect(repoGame.findGameById).toHaveBeenCalledWith("g1");
+      expect(repository.saveScore).toHaveBeenCalledWith(savedScore);
       expect(result).toEqual(savedScore);
     });
   });

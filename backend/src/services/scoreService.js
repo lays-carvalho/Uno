@@ -1,11 +1,24 @@
 const getNextId = require("../utils/getNextId");
 const repository = require("../repositories/scoreRepository");
+const repoPlayer = require("../repositories/playerRepository");
+const repoGame = require("../repositories/gameRepository");
+const AppError = require("../utils/appError");
 
 async function createScore(data) {
   const id = await getNextId("scoreid");
 
+  const player = await repoPlayer.findPlayerById(data.playerId);
+  if (!player) {
+    throw new AppError("Player not found", 404);
+  }
+
+  const game = await repoGame.findGameById(data.gameId);
+  if (!game) {
+    throw new AppError("Game not found", 404);
+  }
+
   const score = {
-    id: id.toString(),
+    id: id,
     playerId: data.playerId,
     gameId: data.gameId,
     score: data.score,
@@ -15,14 +28,29 @@ async function createScore(data) {
 }
 
 async function getScore(id) {
-  return await repository.findScoreById(id);
+  const score = await repository.findScoreById(id);
+  if (!score) {
+    throw new AppError("Score not found", 404);
+  }
+
+  return score;
 }
 
 async function updateScore(id, updates) {
+  const score = await repository.findScoreById(id);
+  if (!score) {
+    throw new AppError("Score not found", 404);
+  }
+
   return await repository.updateScoreById(id, updates);
 }
 
 async function deleteScore(id) {
+  const score = await repository.findScoreById(id);
+  if (!score) {
+    throw new AppError("Score not found", 404);
+  }
+
   return await repository.deleteScoreById(id);
 }
 
@@ -41,7 +69,7 @@ async function getScoresByGameId(gameId) {
 
   return {
     game_id: gameId,
-    scores
+    scores,
   };
 }
 
@@ -51,5 +79,5 @@ module.exports = {
   updateScore,
   deleteScore,
   getAllScores,
-  getScoresByGameId
+  getScoresByGameId,
 };

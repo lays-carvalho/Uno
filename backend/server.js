@@ -10,9 +10,6 @@ app.listen(PORT, () => {
 
 mongoose.connection.once("connected", () => {
   console.log("MongoDB connected successfully");
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
 });
 
 mongoose.connection.on("error", (err) => {

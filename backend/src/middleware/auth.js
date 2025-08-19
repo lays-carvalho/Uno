@@ -1,24 +1,20 @@
 const jwt = require("jsonwebtoken");
-const BlacklistedToken = require("../models/tokensModel");
+const AppError = require("../utils/appError");
+const { checkIfTokenIsPresent } = require("./checkHeader");
+const { checkIfTokenIsBlacklisted } = require("./checkBlacklist");
 
 async function authMiddleware(req, res, next) {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "No token provided" });
+  checkIfTokenIsPresent(req);
 
-  const blacklisted = await BlacklistedToken.findOne({ token });
-  if (blacklisted) {
-    return res.status(401).json({ error: "Token is invalidated" });
-  }
+  checkIfTokenIsBlacklisted(token);
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Invalid token" });
+    throw new AppError("Invalid token", 401);
   }
 }
 
-module.exports = {
-  authMiddleware,
-};
+module.exports = authMiddleware;

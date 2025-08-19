@@ -1,145 +1,141 @@
 const service = require("../services/gameService");
 
-async function createGame(req, res) {
+async function createGame(req, res, next) {
   try {
     const game = await service.createGame(req.body);
     res
       .status(201)
       .json({ message: "Game created successfully", game_id: game.id });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getGame(req, res) {
+async function getGame(req, res, next) {
   try {
     const game = await service.getGame(req.params.id);
-    if (!game) {
-      return res.status(404).json({ message: "Game not found" });
-    }
     res.json(game);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function updateGame(req, res) {
+async function updateGame(req, res, next) {
   try {
     const updated = await service.updateGame(req.params.id, req.body);
-    if (!updated) {
-      return res.status(404).json({ message: "Game not found" });
-    }
     res.json(updated);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function deleteGame(req, res) {
+async function deleteGame(req, res, next) {
   try {
-    const deleted = await service.deleteGame(req.params.id);
-    if (!deleted) {
-      return res.status(404).json({ message: "Game not found" });
-    }
+    await service.deleteGame(req.params.id);
     res.json({ message: "Game deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getAllGames(req, res) {
+async function getAllGames(req, res, next) {
   try {
     const games = await service.getAllGames();
     res.json(games);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function joinGame(req, res) {
-  try {
-    const { gameId, accessToken } = req.body;
+async function joinGame(req, res, next) {
+  const { gameId, accessToken } = req.body;
 
+  try {
     await service.joinGame(gameId, accessToken);
-
-    return res.json({ message: "User joined the game successfully" });
+    return res
+      .status(201)
+      .json({ message: "User joined the game successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function startGame(req, res) {
+async function startGame(req, res, next) {
+  const { gameId, accessToken } = req.body;
+
   try {
-    const { gameId, accessToken } = req.body;
-    const result = await service.startGame(gameId, accessToken);
+    await service.startGame(gameId, accessToken);
     res.status(200).json({ message: "Game started successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
 
-async function markAsReady(req, res) {
+async function markAsReady(req, res, next) {
+  const { gameId, accessToken } = req.body;
+
   try {
-    const { gameId, accessToken } = req.body;
-
     await service.markAsReady(gameId, accessToken);
-
     res.json({ message: "Player marked as ready" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 }
 
-async function leaveGame(req, res) {
+async function leaveGame(req, res, next) {
+  const { game_id, access_token } = req.body;
+
   try {
-    const { game_id, access_token } = req.body;
     await service.leaveGame(game_id, access_token);
     res.json({ message: "User left the game successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
 
-async function endGame(req, res) {
+async function endGame(req, res, next) {
+  const { game_id, access_token } = req.body;
+
   try {
-    const { game_id, access_token } = req.body;
     await service.endGame(game_id, access_token);
     res.json({ message: "Game ended successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getGameState(req, res) {
+async function getGameState(req, res, next) {
+  const { game_id } = req.body;
+
   try {
-    const { game_id } = req.body;
     const state = await service.getGameState(game_id);
     res.json(state);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getPlayersInGame(req, res) {
+async function getPlayersInGame(req, res, next) {
+  const { game_id } = req.body;
+
   try {
-    const { game_id } = req.body;
     const result = await service.getPlayersInGame(game_id);
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
 
-async function getCurrentPlayer(req, res) {
+async function getCurrentPlayer(req, res, next) {
+  const { game_id } = req.body;
+
   try {
-    const { game_id } = req.body;
     const result = await service.getCurrentPlayer(game_id);
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 }
-
 
 module.exports = {
   createGame,
@@ -154,5 +150,5 @@ module.exports = {
   endGame,
   getGameState,
   getPlayersInGame,
-  getCurrentPlayer
+  getCurrentPlayer,
 };
