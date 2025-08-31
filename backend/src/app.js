@@ -19,7 +19,6 @@ app.use("/api", cardRoutes);
 app.use("/api", scoreRoutes);
 app.use("/api", statsRoutes);
 
-
 app.get("/", (req, res) => {
   res.send("🎮 API do Capstone-UNO está funcionando! 👾");
 });
