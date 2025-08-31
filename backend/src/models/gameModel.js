@@ -12,9 +12,13 @@ const gameSchema = new mongoose.Schema({
   players: [{ type: mongoose.Schema.Types.Int32, ref: "Player" }],
   creator: { type: Number, required: true },
   readyPlayers: [{ type: Number }],
-  leftPlayers: [{ type: Number }], 
+  leftPlayers: [{ type: Number }],
   createdAt: { type: Date, default: Date.now },
-  currentPlayer: { type: Number }
+  currentPlayer: { type: Number },
+  winner: {
+    type: String,
+    default: null,
+  },
 });
 
 module.exports = mongoose.model("Game", gameSchema);

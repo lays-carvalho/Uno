@@ -375,6 +375,23 @@ async function playCard(gameId, playerId, cardPlayed) {
     { $set: { owner: null, discardOrder: nextOrder } },
   );
 
+  const remainingCards = await GameCard.countDocuments({
+    gameId,
+    owner: playerId,
+  });
+
+  if (remainingCards === 0) {
+    await repository.updateGameById(gameId, {
+      status: "inactive",
+      winner: playerId,
+    });
+
+    return {
+      message: `Player ${playerId} won the game!`,
+      winner: playerId,
+    };
+  }
+
   const idx = game.players.findIndex(
     (p) => p.toString() === playerId.toString(),
   );
