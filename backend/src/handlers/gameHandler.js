@@ -83,10 +83,10 @@ async function markAsReady(req, res, next) {
 }
 
 async function leaveGame(req, res, next) {
-  const { game_id, access_token } = req.body;
+  const { gameId, accessToken } = req.body;
 
   try {
-    await service.leaveGame(game_id, access_token);
+    await service.leaveGame(gameId, accessToken);
     res.json({ message: "User left the game successfully" });
   } catch (error) {
     next(error);
@@ -94,10 +94,10 @@ async function leaveGame(req, res, next) {
 }
 
 async function endGame(req, res, next) {
-  const { game_id, access_token } = req.body;
+  const { gameId, accessToken } = req.body;
 
   try {
-    await service.endGame(game_id, access_token);
+    await service.endGame(gameId, accessToken);
     res.json({ message: "Game ended successfully" });
   } catch (error) {
     next(error);
@@ -105,10 +105,10 @@ async function endGame(req, res, next) {
 }
 
 async function getGameState(req, res, next) {
-  const { game_id } = req.body;
+  const { gameId } = req.body;
 
   try {
-    const state = await service.getGameState(game_id);
+    const state = await service.getGameState(gameId);
     res.json(state);
   } catch (error) {
     next(error);
@@ -116,10 +116,10 @@ async function getGameState(req, res, next) {
 }
 
 async function getPlayersInGame(req, res, next) {
-  const { game_id } = req.body;
+  const { gameId } = req.body;
 
   try {
-    const result = await service.getPlayersInGame(game_id);
+    const result = await service.getPlayersInGame(gameId);
     res.json(result);
   } catch (error) {
     next(error);
@@ -127,11 +127,22 @@ async function getPlayersInGame(req, res, next) {
 }
 
 async function getCurrentPlayer(req, res, next) {
-  const { game_id } = req.body;
+  const { gameId } = req.body;
 
   try {
-    const result = await service.getCurrentPlayer(game_id);
+    const result = await service.getCurrentPlayer(gameId);
     res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function distributeCardsHandler(req, res, next) {
+  const { gameId } = req.body;
+
+  try {
+    const result = await service.distributeCards(gameId);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -151,4 +162,5 @@ module.exports = {
   getGameState,
   getPlayersInGame,
   getCurrentPlayer,
+  distributeCardsHandler
 };

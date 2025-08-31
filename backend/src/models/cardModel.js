@@ -4,7 +4,7 @@ const cardSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   color: { type: String, required: true },
   value: { type: String, required: true },
-  gameId: { type: String, required: true }, 
+  gameId: { type: String, default: null }, 
   createdAt: { type: Date, default: Date.now }
 });
 
