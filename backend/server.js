@@ -1,10 +1,18 @@
 require("dotenv").config();
+const http = require("http");
 const app = require("./src/app");
 const mongoose = require("./src/database/config");
+const initWebSocket = require("./wsServer"); //importando o wsServer
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+// cria servidor http a partir do express
+const server = http.createServer(app);
+
+// inicializa WebSocket no mesmo servidor
+initWebSocket(server);
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
