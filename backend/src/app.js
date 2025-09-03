@@ -7,6 +7,7 @@ const scoreRoutes = require("./routes/scores");
 const errorHandler = require("./middleware/errorHandler");
 const trackingMiddleware = require("./middleware/trackingMiddleware");
 const statsRoutes = require("./routes/stats");
+const turn = require("./routes/turn");
 
 app.use(express.json());
 
@@ -18,6 +19,7 @@ app.use("/api", gameRoutes);
 app.use("/api", cardRoutes);
 app.use("/api", scoreRoutes);
 app.use("/api", statsRoutes);
+app.use("/api", turn);
 
 app.get("/", (req, res) => {
   res.send("🎮 API do Capstone-UNO está funcionando! 👾");

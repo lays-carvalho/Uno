@@ -21,7 +21,10 @@ router.post("/games/currentPlayer", handler.getCurrentPlayer);
 router.get("/games/:gameId/deck", deckHandler.getDeckSnapshot);
 
 router.get("/games/:id/hand/:player", turnHandler.getPlayerHand);
-router.put("/games/:id/playcard", turnHandler.playCard);
+
+//playCard vai tratar skip + reverse + normal
+router.post("/games/:id/playCard", turnHandler.playCard);
+
 router.put("/games/:id/draw", turnHandler.drawCard);
 
 module.exports = router;
