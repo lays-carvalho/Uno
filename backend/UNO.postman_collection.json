@@ -179,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImVtYWlsIjoidGVzdGUzQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU0MTAwMzgzLCJleHAiOjE3NTQxMjE5ODN9.Lk_SES3qbcl37fE3kn8xFe0CVrexW1oDpP0P43PKT8g\"\n}",
+							"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImVtYWlsIjoidGVzdGUzQGV4YW1wbGUucom\",\n    \"password\": \"123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -295,7 +295,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"gameId\": 7,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTc1NDEzNDUyOCwiZXhwIjoxNzU0MTU2MTI4fQ.GLhtQqQzmI-5HjvTnOAjeiyRS0q3zZvpVVFlLqs4Tts\"\r\n}",
+							"raw": "{\r\n    \"gameId\": 7,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTc1NDEzNDUyOCwiZXhwIjoxNzU0MTU2MTI8fQ.GLhtQqQzmI-5HjvTnOAjeiyRS0q3zZvpVVFlLqs4Tts\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -343,6 +343,59 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Draw Card (Rule - Task 7)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"playerHand\": [\"red_2\", \"blue_5\"],\n    \"deck\": [\"green_4\", \"yellow_skip\", \"red_9\"],\n    \"currentCard\": \"blue_7\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games/1/draw",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"1",
+								"draw"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{unoURL}}/api/games/1/draw",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"1",
+										"draw"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"body": "{\n  \"status\": 200,\n  \"body\": {\n    \"newHand\": [\"red_2\", \"blue_5\", \"green_4\", \"yellow_skip\"],\n    \"drawnCard\": \"yellow_skip\",\n    \"playable\": false\n  }\n}"
+						}
+					]
 				},
 				{
 					"name": "All",
