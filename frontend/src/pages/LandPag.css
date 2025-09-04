@@ -1,0 +1,58 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: #141414;
+  font-family: 'Cabin', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.logo {
+  width: 600px;
+  max-width: 90%;
+  margin-bottom: 110px;
+  align-self: center;
+}
+
+.menu {
+  position: absolute;
+  bottom: 70px;
+  display: flex;
+  width: 100%;
+  height: 80px;
+}
+
+.menu .btn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-shadow: 0px 4px 1.8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.menu .btn:hover {
+  transform: scaleY(1.1);
+  filter: brightness(1.1);
+}
+
+
+.menu .green { background-color: #8CB028; }
+.menu .blue { background-color: #6CA3D2; }
+.menu .red { background-color: #C93827; }
+.menu .yellow { background-color: #E2B633; }
