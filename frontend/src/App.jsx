@@ -1,7 +1,7 @@
 /*
  * [2025-07-23] João Neto:
  * Exemplo de App que podemos utilizar
- */
+ 
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -16,6 +16,16 @@ function App() {
       </Routes>
     </Router>
   );
+}
+
+export default App;
+*/
+
+import React from "react";
+import LandPag from "./pages/LandPag";
+
+function App() {
+  return <LandPag />;
 }
 
 export default App;
