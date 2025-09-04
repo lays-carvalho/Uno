@@ -1,0 +1,41 @@
+.back-button {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  transform: translateX(25%);
+  width: 160px;
+  height: 50px;
+  background: #CBCCCE;
+  border-radius: 25px;
+  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  border: none;
+  overflow: visible;
+}
+
+.icon-wrapper {
+  width: 36px;
+  height: 36px;
+  background: #E1E5E8;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.icon-wrapper img {
+  width: 20px;
+  height: 20px;
+}
+
+.back-button span {
+  font-family: 'Cabin', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+}
