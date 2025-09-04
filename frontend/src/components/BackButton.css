@@ -39,3 +39,15 @@
   font-weight: 400;
   color: #000;
 }
+
+.back-button:hover {
+  background: #b5b6b8; 
+  transform: translateX(25%) scale(1.02); 
+  transition: all 0.2s ease;
+}
+
+.back-button:hover .icon-wrapper {
+  background: #d4d8da; 
+  transform: rotate(-10deg);
+  transition: all 0.2s ease;
+}
