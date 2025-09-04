@@ -22,10 +22,10 @@ export default App;
 */
 
 import React from "react";
-import Login from "./pages/Login";
+import LandPag from "./pages/LandPag";
 
 function App() {
-  return <Login />;
+  return <LandPag />;
 }
 
 export default App;
