@@ -1,0 +1,756 @@
+{
+	"info": {
+		"_postman_id": "f300b217-ee85-4dec-916d-ac2a372bd02e",
+		"name": "UNO E2E - Lab 9",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43095529"
+	},
+	"item": [
+		{
+			"name": "Fluxo de Autenticação",
+			"item": [
+				{
+					"name": "Registrar Usuários",
+					"item": [
+						{
+							"name": "Create user 1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"user 1\",\r\n    \"email\": \"user1@example.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"user 2\",\r\n    \"email\": \"user2@example.com\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login user 1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user1@example.com\",\n    \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players/login",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login user 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user2@example.com\",\n    \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players/login",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Obter perfil",
+					"item": [
+						{
+							"name": "Me (info user 1)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4IiwiaWF0IjoxNzU3MTAyMjE0LCJleHAiOjE3NTcxMjM4MTR9.aI2vruRLHGDg2Igvlx0JDM1eK-hSeBIgbBJbM_Jm2YQ\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players/me",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Me (info user 2)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwiaWF0IjoxNzU3MTAyMjUyLCJleHAiOjE3NTcxMjM4NTJ9._AFE0TMH8vaV4x4nZX2dTbDLUmRIzYaR5Rf-gF02VzQ\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players/me",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"item": [
+						{
+							"name": "Logout user 1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4IiwiaWF0IjoxNzU3MTAyMjE0LCJleHAiOjE3NTcxMjM4MTR9.aI2vruRLHGDg2Igvlx0JDM1eK-hSeBIgbBJbM_Jm2YQ\",\n    \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players/logout",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout user 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwiaWF0IjoxNzU3MTAyMjUyLCJleHAiOjE3NTcxMjM4NTJ9._AFE0TMH8vaV4x4nZX2dTbDLUmRIzYaR5Rf-gF02VzQ\",\n    \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/players/logout",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"players",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Fluxo para Iniciar o Game",
+			"item": [
+				{
+					"name": "Criar Partida",
+					"item": [
+						{
+							"name": "Create Game (user 1)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"UNO - teste E2E - Lab 9\",\r\n    \"creator\": 28,\r\n    \"status\": \"not_started\",\r\n    \"maxPlayers\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Entrar na Partida",
+					"item": [
+						{
+							"name": "Join Game (user 1)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"gameId\": 60,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4IiwiaWF0IjoxNzU3MTAyMjE0LCJleHAiOjE3NTcxMjM4MTR9.aI2vruRLHGDg2Igvlx0JDM1eK-hSeBIgbBJbM_Jm2YQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games/joinGame",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"joinGame"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join Game (user 2)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"gameId\": 60,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwiaWF0IjoxNzU3MTAyMjUyLCJleHAiOjE3NTcxMjM4NTJ9._AFE0TMH8vaV4x4nZX2dTbDLUmRIzYaR5Rf-gF02VzQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games/joinGame",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"joinGame"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Marcar como Pronto",
+					"item": [
+						{
+							"name": "Mark as Ready (user 1)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"gameId\": 60,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4IiwiaWF0IjoxNzU3MTAyMjE0LCJleHAiOjE3NTcxMjM4MTR9.aI2vruRLHGDg2Igvlx0JDM1eK-hSeBIgbBJbM_Jm2YQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games/markAsReady",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"markAsReady"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark as Ready (user 2)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"gameId\": 60,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwiaWF0IjoxNzU3MTAyMjUyLCJleHAiOjE3NTcxMjM4NTJ9._AFE0TMH8vaV4x4nZX2dTbDLUmRIzYaR5Rf-gF02VzQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games/markAsReady",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"markAsReady"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Iniciar Partida",
+					"item": [
+						{
+							"name": "Start Game (user 1)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"gameId\": 60,\r\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4IiwiaWF0IjoxNzU3MTAyMjE0LCJleHAiOjE3NTcxMjM4MTR9.aI2vruRLHGDg2Igvlx0JDM1eK-hSeBIgbBJbM_Jm2YQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games/startGame",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"startGame"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Fluxo de Rodadas/Turnos",
+			"item": [
+				{
+					"name": "Ver baralho (geral)",
+					"item": [
+						{
+							"name": "Deck - opcional",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/games/60/deck",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"games",
+										"60",
+										"deck"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Ver baralho (by player)",
+					"item": []
+				},
+				{
+					"name": "Jogar carta",
+					"item": []
+				},
+				{
+					"name": "Comprar Carta",
+					"item": []
+				},
+				{
+					"name": "Deck - opcional",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{unoURL}}/api/games/60/deck",
+							"host": [
+								"{{unoURL}}"
+							],
+							"path": [
+								"api",
+								"games",
+								"60",
+								"deck"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fluxo de Encerramento",
+			"item": [
+				{
+					"name": "Sair da partida em andamento",
+					"item": []
+				},
+				{
+					"name": "Finalizar partida",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Fluxo de Pontuação",
+			"item": [
+				{
+					"name": "Placar de cada jogador",
+					"item": [
+						{
+							"name": "Score By Player",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//endpoint ainda em desenvolvimento",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/scores/byPlayer/:playerId",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"scores",
+										"byPlayer",
+										":playerId"
+									],
+									"variable": [
+										{
+											"key": "playerId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Placar global",
+					"item": [
+						{
+							"name": "Score All Users",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//endpoint ainda em desenvolvimento",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{unoURL}}/api/scores/allUsers",
+									"host": [
+										"{{unoURL}}"
+									],
+									"path": [
+										"api",
+										"scores",
+										"allUsers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Listar todos os scores",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Outros EndPoints",
+			"item": [
+				{
+					"name": "Player",
+					"item": [
+						{
+							"name": "CRUD",
+							"item": [
+								{
+									"name": "By Id",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{unoURL}}/api/players/{id}",
+											"host": [
+												"{{unoURL}}"
+											],
+											"path": [
+												"api",
+												"players",
+												"{id}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\"age\": 23\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{unoURL}}/api/players/{id}",
+											"host": [
+												"{{unoURL}}"
+											],
+											"path": [
+												"api",
+												"players",
+												"{id}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{unoURL}}/api/players/{id}",
+											"host": [
+												"{{unoURL}}"
+											],
+											"path": [
+												"api",
+												"players",
+												"{id}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "All",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{unoURL}}/api/players",
+											"host": [
+												"{{unoURL}}"
+											],
+											"path": [
+												"api",
+												"players"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "unoURL",
+			"value": "http://localhost:3000",
+			"type": "default"
+		}
+	]
+}

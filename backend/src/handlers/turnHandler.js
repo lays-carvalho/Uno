@@ -58,7 +58,7 @@ async function getPlayerHand(req, res, next) {
       nextPlayer: players[nextPlayerIndex],
     };
 
-    if (skippedPlayer) response.skippedPlayer = skippedPlayer;
+    if (skippedPlayer) response.skippedPlayer = skippedPlayer;  
     if (cardPlayed === "reverse") response.newDirection = newDirection;
 
     res.json({ status: 200, body: response });
@@ -72,6 +72,10 @@ async function playCard(req, res, next) {
   try {
     const { id: gameId } = req.params;
     const { player, cardPlayed } = req.body;
+
+     if (!player || !cardPlayed) {
+      return res.status(400).json({ error: "player e cardPlayed são obrigatórios" });
+    }
 
     const result = await gameService.playCard(gameId, player, cardPlayed);
 
