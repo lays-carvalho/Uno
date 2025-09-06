@@ -1,13 +1,32 @@
 import React, { useState } from "react";
 import { FaUser, FaKey } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // lógica de login aqui pra fazer
+    setError("");
+    try {
+      const response = await fetch("/api/players/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      if (response.ok) {
+        // Se quiser salvar token ou dados, faça aqui
+        // const data = await response.json();
+        navigate("/main"); // Redireciona para página principal após login
+      } else {
+        setError("Usuário ou senha inválidos.");
+      }
+    } catch (err) {
+      setError("Erro ao conectar ao servidor.");
+    }
   };
 
   return (
@@ -102,7 +121,19 @@ const Login = () => {
           />
         </div>
 
-        {/* Botão login, quiser mudar depois fiquem avontade*/}
+        {/* Mensagem de erro */}
+        {error && (
+          <div style={{
+            color: "#e74c3c",
+            marginBottom: "12px",
+            fontSize: "0.95rem",
+            textAlign: "center"
+          }}>
+            {error}
+          </div>
+        )}
+
+        {/* Botão  de login, quiser mudar depois fiquem avontade*/}
         <button
           type="submit"
           style={{
@@ -128,10 +159,21 @@ const Login = () => {
           fontStyle: "italic",
           textAlign: "center"
         }}>
-          You don't have a account? <span style={{ textDecoration: "underline", cursor: "pointer" }}>Register Here!</span>
+          You don't have a account?{" "}
+          <Link
+            to="/register"
+            style={{
+              textDecoration: "underline",
+              color: "#7bb1e7",
+              cursor: "pointer",
+              fontWeight: "bold"
+            }}
+          >
+            Register Here!
+          </Link>
         </span>
       </form>
-    </div>
+    </div> 
   );
 };
 

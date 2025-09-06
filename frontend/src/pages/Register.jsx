@@ -1,15 +1,41 @@
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaKey } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // lógica de registro aqui pra fazer depois
+    setError("");
+
+    if (password !== confirm) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/players", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        // Registro feito com sucesso, redireciona para login
+        navigate("/login");
+      } else {
+        const data = await response.json();
+        setError(data.message || "Registration failed.");
+      }
+    } catch (err) {
+      setError("Server error. Try again later.");
+    }
   };
 
   return (
@@ -138,7 +164,7 @@ const Register = () => {
           background: "#e0e0e0",
           borderRadius: "20px",
           padding: "8px 16px",
-          marginBottom: "28px",
+          marginBottom: "18px",
           width: "100%"
         }}>
           <FaKey style={{ color: "#555", marginRight: "10px" }} />
@@ -157,6 +183,18 @@ const Register = () => {
             required
           />
         </div>
+
+        {/* Mensagem de erro */}
+        {error && (
+          <div style={{
+            color: "#e74c3c",
+            marginBottom: "12px",
+            fontSize: "0.95rem",
+            textAlign: "center"
+          }}>
+            {error}
+          </div>
+        )}
 
         {/* Botão register, quiser mudar depois fiquem avontade*/}
         <button
@@ -184,7 +222,18 @@ const Register = () => {
           fontStyle: "italic",
           textAlign: "center"
         }}>
-          You already have a account? <span style={{ textDecoration: "underline", cursor: "pointer" }}>Login here!</span>
+          You already have a account?{" "}
+          <Link
+            to="/login"
+            style={{
+              textDecoration: "underline",
+              color: "#7bb1e7",
+              cursor: "pointer",
+              fontWeight: "bold"
+            }}
+          >
+            Login here!
+          </Link>
         </span>
       </form>
     </div>
