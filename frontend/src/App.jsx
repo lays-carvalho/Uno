@@ -21,11 +21,18 @@ function App() {
 export default App;
 */
 
+import { Routes, Route } from 'react-router-dom';
 import React from "react";
 import LandPag from "./pages/LandPag";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
-  return <LandPag />;
+  return (
+    <Routes>
+      <Route path="/" element={<LandPag />} />
+      <Route path="/aboutus" element={<AboutUs />} />
+    </Routes>
+  );
 }
 
 export default App;
