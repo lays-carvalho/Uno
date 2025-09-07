@@ -2,10 +2,23 @@ const service = require("../services/gameService");
 
 async function createGame(req, res, next) {
   try {
-    const game = await service.createGame(req.body);
-    res
-      .status(201)
-      .json({ message: "Game created successfully", game_id: game.id });
+    const { accessToken, title} = req.body;
+
+    // Validação básica
+    if (!accessToken) {
+      return res.status(401).json({ message: "Access token is required" });
+    }
+
+    // João Neto(ToDo): Passar o accessToken para o service
+    const game = await service.createGame({
+      accessToken,
+      title
+    });
+    
+    res.status(201).json({ 
+      message: "Game created successfully", 
+      game_id: game.id 
+    });
   } catch (error) {
     next(error);
   }
@@ -64,6 +77,14 @@ async function startGame(req, res, next) {
   const { gameId, accessToken } = req.body;
 
   try {
+    // Verificação adicional de status
+    const game = await service.getGame(gameId);
+    if (game.status !== "not_started") {
+      return res.status(400).json({ 
+        message: "Game can only be started from 'not_started' status" 
+      });
+    }
+
     await service.startGame(gameId, accessToken);
     res.status(200).json({ message: "Game started successfully" });
   } catch (error) {
@@ -150,7 +171,7 @@ async function distributeCardsHandler(req, res, next) {
 
 module.exports = {
   createGame,
-  getGame,
+  getGame,         
   updateGame,
   deleteGame,
   getAllGames,

@@ -4,16 +4,41 @@ const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const Card = require("../models/cardModel");
 const GameCard = require("../models/gameCardModel"); // cartas clonadas
+const playerRepository = require("../repositories/playerRepository");
 
 async function createGame(data) {
+  const { accessToken, title } = data;
+
+  // João Neto(ToDo): Validar token e usuário
+  if (!accessToken) {
+    throw new AppError("Access token is required", 401);
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  } catch (err) {
+    throw new AppError("Invalid or expired token", 401);
+  }
+
+  // Verificar se o usuário existe
+  const userExists = await playerRepository.findPlayerById(decoded.id);
+  if (!userExists) {
+    throw new AppError("User not found", 404);
+  }
+
   const id = await getNextId("gameid");
 
+  // João Neto(ToDo): Status definido automaticamente e creator pego do token
   const game = {
     id: id.toString(),
-    title: data.title,
-    creator: data.creator,
-    status: data.status,
-    maxPlayers: data.maxPlayers,
+    title: title,
+    creator: decoded.id, // ← Pegando do token, não do body
+    status: "not_started",
+    maxPlayers: 4,
+    players: [decoded.id], // Adiciona o criador como jogador
+    readyPlayers: [],
+    leftPlayers: []
   };
 
   return await repository.saveGame(game);
@@ -59,8 +84,18 @@ async function joinGame(gameId, accessToken) {
     throw new AppError("Game not found", 404);
   }
 
+  // João Neto(ToDo): Verificar se o jogo já está cheio
+  if (game.players.length >= game.maxPlayers) {
+    throw new AppError("Game is full. Maximum " + game.maxPlayers + " players allowed", 400);
+  }
+
   if (game.players.includes(userId)) {
     throw new AppError("User already in the game", 409);
+  }
+
+  // João Neto(ToDo): Verificar se o jogo já começou
+  if (game.status !== "not_started") {
+    throw new AppError("Cannot join game that has already started", 400);
   }
 
   game.players.push(userId);
@@ -77,32 +112,36 @@ async function startGame(gameId, accessToken) {
     throw new AppError("Game not found", 404);
   }
 
-  if (game.status === "active") {
-    throw new AppError(
-      "Game is already active and cannot be started again",
-      400,
-    );
+  if (game.status !== "not_started") {
+    throw new AppError("Game can only be started from 'not_started' status", 400);
   }
 
   if (game.creator.toString() !== userId.toString()) {
     throw new AppError("Only the game creator can start the game", 403);
   }
 
+  // João Neto(ToDo): Validação de mínimo 2 jogadores
   if (game.players.length < 2) {
-    throw new AppError("Insufficient number of players", 400);
+    throw new AppError("Minimum 2 players required to start the game. Current: " + game.players.length, 400);
+  }
+
+  // João Neto(ToDo): Validação de máximo 4 jogadores
+  if (game.players.length > 4) {
+    throw new AppError("Maximum 4 players allowed in a game. Current: " + game.players.length, 400);
+  }
+  // Verifica se o criador está marcado como ready
+  if (!game.readyPlayers.includes(userId)) {
+    throw new AppError("Game creator must be ready to start the game", 400);
   }
 
   const allReady = game.players.every((playerId) =>
-    game.readyPlayers.includes(playerId),
+    game.readyPlayers.includes(playerId)
   );
 
   if (!allReady) {
     throw new AppError("Not all players are ready", 400);
   }
 
-  if (game.readyPlayers.length === 0) {
-    throw new AppError("No players are ready to start", 400);
-  }
   const randomIndex = Math.floor(Math.random() * game.readyPlayers.length);
   const randomCurrentPlayer = game.readyPlayers[randomIndex];
 

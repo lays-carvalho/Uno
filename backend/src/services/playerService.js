@@ -43,7 +43,8 @@ async function getAllPlayers() {
   return await repository.findAllPlayers();
 }
 
-async function getPlayerInfo(accessToken) {
+// João Neto(ToDo): ALTERADO: Método renomeado para postPlayerInfo para manter padrão POST
+async function postPlayerInfo(accessToken) {
   if (!accessToken) {
     throw new AppError("Access token is required", 401);
   }
@@ -85,7 +86,7 @@ module.exports = {
   updatePlayer,
   deletePlayer,
   getAllPlayers,
-  getPlayerInfo,
+  postPlayerInfo, // João Neto(ToDo): modificado para Post
   login,
   logout,
 };
