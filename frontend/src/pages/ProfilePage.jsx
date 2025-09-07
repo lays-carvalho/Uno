@@ -1,23 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfilePage.css";
 import UnoLogo from "../Assets/Uno-Logo.png";
 import { FaUser, FaEnvelope } from "react-icons/fa";
 import BackButton from "../components/BackButton";
+import Unauthorized from "../components/Unauthorized";
 
 export default function ProfilePage() {
-  const player = {
-    name: "Laura",
-    email: "laura@email.com",
-    matchesTotal: 42,
-    matchesWon: 21,
-    matchesLost: 21,
-  };
+  const token = localStorage.getItem("token");
+  const [player, setPlayer] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchPlayer = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/players/me`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessToken: token }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setPlayer({
+            name: data.name,
+            email: data.email,
+            matchesTotal: data.total,
+            matchesWon: data.wins,
+            matchesLost: data.loss,
+          });
+        } else {
+          setPlayer(null);
+        }
+      } catch (err) {
+        console.error("Error fetching player:", err);
+        setPlayer(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayer();
+  }, [token]);
+
+  if (loading) return <div className="loading-container">Loading...</div>;
+  if (!token || !player) return <Unauthorized />;
 
   return (
     <div className="profile-container">
       <img src={UnoLogo} alt="UNO Logo" className="uno-logo" />
 
-      <BackButton text="Return" />
+      <BackButton to="/main" />
 
       <h1 className="profile-title">Profile</h1>
 

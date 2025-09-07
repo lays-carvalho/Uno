@@ -9,8 +9,8 @@ function LandPag() {
 
   const menuItems = [
     { label: "HOW TO PLAY", color: "green", onClick: () => {} },
-    { label: "LOGIN", color: "blue", onClick: () => {} },
-    { label: "REGISTER", color: "red", onClick: () => {} },
+    { label: "LOGIN", color: "blue", onClick: navigate => navigate("/login") },
+    { label: "REGISTER", color: "red", onClick: navigate => navigate("/register") },
     { label: "ABOUT US", color: "yellow", onClick: navigate => navigate("/aboutus") },
   ];
 
