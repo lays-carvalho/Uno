@@ -1,15 +1,32 @@
+import { useNavigate } from "react-router-dom";
 import unoLogo from "../Assets/Uno-Logo.png";
 import "./LandPag.css";
+import usePageTitle from "../hooks/usePageTitle";
 
 function LandPag() {
+  usePageTitle("UNO - WELCOME");
+  const navigate = useNavigate();
+
+  const menuItems = [
+    { label: "HOW TO PLAY", color: "green", onClick: () => {} },
+    { label: "LOGIN", color: "blue", onClick: () => {} },
+    { label: "REGISTER", color: "red", onClick: () => {} },
+    { label: "ABOUT US", color: "yellow", onClick: navigate => navigate("/aboutus") },
+  ];
+
   return (
     <div className="container">
       <img src={unoLogo} alt="UNO Logo" className="logo" />
       <div className="menu">
-        <button className="btn green">HOW TO PLAY</button>
-        <button className="btn blue">LOGIN</button>
-        <button className="btn red">REGISTER</button>
-        <button className="btn yellow">ABOUT US</button>
+        {menuItems.map((item, index) => (
+          <button
+            key={index}
+            className={`btn ${item.color}`}
+            onClick={() => item.onClick(navigate)}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
     </div>
   );

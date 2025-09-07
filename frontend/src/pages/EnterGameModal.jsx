@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 const EnterGameModal = ({ gameCode, setGameCode, onEnter, onCancel }) => {
+  const [hoverEnter, setHoverEnter] = useState(false);
+  const [hoverCancel, setHoverCancel] = useState(false);
+
   return (
     <div
       style={{
@@ -43,10 +46,14 @@ const EnterGameModal = ({ gameCode, setGameCode, onEnter, onCancel }) => {
             fontWeight: "bold",
           }}
         />
+
+        {/* ENTER GAME */}
         <button
           onClick={onEnter}
+          onMouseEnter={() => setHoverEnter(true)}
+          onMouseLeave={() => setHoverEnter(false)}
           style={{
-            background: "#666",
+            background: hoverEnter ? "#444" : "#666",
             color: "#fff",
             padding: "12px 24px",
             borderRadius: "8px",
@@ -58,17 +65,22 @@ const EnterGameModal = ({ gameCode, setGameCode, onEnter, onCancel }) => {
         >
           ENTER GAME
         </button>
+
+        {/* CANCEL */}
         <button
           onClick={onCancel}
+          onMouseEnter={() => setHoverCancel(true)}
+          onMouseLeave={() => setHoverCancel(false)}
           style={{
             marginTop: "12px",
-            background: "#C93827",
+            background: hoverCancel ? "#8c1b0fff" : "#D43B30",
             color: "#fff",
             padding: "10px 20px",
             borderRadius: "8px",
             border: "none",
             cursor: "pointer",
             fontWeight: "bold",
+            transition: "background 0.3s",
           }}
         >
           CANCEL

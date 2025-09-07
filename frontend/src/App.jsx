@@ -1,31 +1,22 @@
-/*
- * [2025-07-23] João Neto:
- * Exemplo de App que podemos utilizar
- 
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Game from './pages/Game';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LandPag from "./pages/LandPag";
+import MainPage from "./pages/MainPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/game" element={<Game />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<LandPag />} />
+      <Route path="/main" element={<MainPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/aboutus" element={<AboutUs />} />
+      {/* copie as rotas acima e vão colocando abaixo com o nome das páginas pra criar a url */}
+    </Routes>
   );
-}
-
-export default App;
-*/
-
-import React from "react";
-import LandPag from "./pages/LandPag";
-
-function App() {
-  return <LandPag />;
 }
 
 export default App;
