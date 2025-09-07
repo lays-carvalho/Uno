@@ -1,218 +1,95 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import unoLogo from "./Uno Logo.png";
+import Unauthorized from "../components/Unauthorized";
+import "./MainPage.css";
 
 export default function MainPage() {
-  const username = "Username";
-  const profilePic =
-    "https://www.w3schools.com/howto/img_avatar.png"; 
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/players/me`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessToken: token }),
+        });
+
+        const data = await response.json();
+        if (response.ok && data.name) {
+          setUser({ name: data.name });
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [token]);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        Loading...
+      </div>
+    );
+  }
+
+  if (!token || !user) {
+    return <Unauthorized />;
+  }
+
+  const profilePic = "https://www.w3schools.com/howto/img_avatar.png";
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#191919",
-        position: "relative",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      {/* UNO Logo */}
-      <div
-        style={{
-          position: "absolute",
-          top: 16,
-          left: 16,
-          zIndex: 2,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <img
-          src={unoLogo}
-          alt="UNO Logo"
-          style={{
-            width: 90,
-            height: "auto",
-            background: "rgba(25,25,25,0.0)",
-            borderRadius: "50%",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-          }}
-        />
+    <div className="main-container">
+      <div className="logo-wrapper">
+        <img src={unoLogo} alt="UNO Logo" className="logo" />
       </div>
 
-      {/* User Profile */}
-      <div
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 32,
-          background: "#ddd",
-          borderRadius: 24,
-          padding: "6px 24px 6px 12px",
-          display: "flex",
-          alignItems: "center",
-          minWidth: 170,
-          boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-        }}
-      >
-        <img
-          src={profilePic}
-          alt="Profile"
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
-            objectFit: "cover",
-            background: "#bbb",
-            marginRight: 12,
-          }}
-        />
-        <span style={{ fontSize: 16, color: "#222" }}>{username}</span>
-      </div>
+      <button className="user-profile" onClick={() => navigate("/profile")}>
+        <img src={profilePic} alt="Profile" className="profile-pic" />
+        <span className="username">{user.name}</span>
+      </button>
 
-      {/* Main */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <div style={{ display: "flex", gap: "80px" }}>
-          {/* HOW TO PLAY */}
-          <div
-            className="zoom-card"
-            style={{
-              width: 260,
-              height: 340,
-              background: "#97B42D",
-              borderRadius: 24,
-              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "#fff",
-              fontSize: 36,
-              fontWeight: "500",
-              textAlign: "center",
-              cursor: "pointer",
-              transition: "transform 0.2s",
-            }}
-          >
-            HOW
-            <br />
-            TO
-            <br />
+      <div className="center">
+        <div className="cards">
+          <button className="zoom-card how-to-play" onClick={() => navigate("/how-to-play")}>
+            HOW<br />TO<br />PLAY
+          </button>
+
+          <button className="zoom-card play" onClick={() => navigate("/play")}>
             PLAY
-          </div>
-          {/* PLAY */}
-          <div
-            className="zoom-card"
-            style={{
-              width: 260,
-              height: 340,
-              background: "#7CB3E3",
-              borderRadius: 24,
-              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "#fff",
-              fontSize: 36,
-              fontWeight: "500",
-              textAlign: "center",
-              cursor: "pointer",
-              transition: "transform 0.2s",
-            }}
-          >
-            PLAY
-          </div>
-          
-          {/* RANKING */}
-          <div
-            className="zoom-card"
-            style={{
-              width: 260,
-              height: 340,
-              background: "#E2B94A",
-              borderRadius: 24,
-              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "#fff",
-              fontSize: 36,
-              fontWeight: "500",
-              textAlign: "center",
-              cursor: "pointer",
-              transition: "transform 0.2s",
-            }}
-          >
+          </button>
+
+          <button className="zoom-card ranking" onClick={() => navigate("/ranking")}>
             RANKING
-          </div>
+          </button>
         </div>
       </div>
 
-      <div
-        style={{
-          position: "fixed",
-          right: 32,
-          bottom: 32,
-          zIndex: 10,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            bottom: -10,
-            width: 110,
-            height: 40,
-            background: "#E2B94A",
-            borderRadius: 8,
-            zIndex: 1,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-          }}
-        ></div>
-        <button
-          style={{
-            position: "relative",
-            zIndex: 2,
-            background: "#D32F2F",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            padding: "12px 28px",
-            fontWeight: "500",
-            fontSize: 16,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-            cursor: "pointer",
-            minWidth: 110,
-            textAlign: "center",
-            letterSpacing: 1,
-          }}
-        >
+      <div className="about-wrapper">
+        <div className="about-bg"></div>
+        <button className="about-btn" onClick={() => navigate("/aboutus")}>
           ABOUT US
         </button>
       </div>
-
-      <style>
-        {`
-          .zoom-card {
-            transition: transform 0.2s;
-          }
-          .zoom-card:hover {
-            transform: scale(1.08);
-            z-index: 10;
-          }
-        `}
-      </style>
     </div>
   );
 }

@@ -18,9 +18,9 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
       if (response.ok) {
-        // Se quiser salvar token ou dados, faça aqui
-        // const data = await response.json();
-        navigate("/main"); // Redireciona para página principal após login
+        const data = await response.json();
+        localStorage.setItem("token", data.accessToken);
+        navigate("/main");
       } else {
         setError("Usuário ou senha inválidos.");
       }
@@ -80,7 +80,7 @@ const Login = () => {
           <FaUser style={{ color: "#555", marginRight: "10px" }} />
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             style={{

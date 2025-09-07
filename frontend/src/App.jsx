@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
+import Profile from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/profile" element={<Profile />} />
       {/* copie as rotas acima e vão colocando abaixo com o nome das páginas pra criar a url */}
     </Routes>
   );
