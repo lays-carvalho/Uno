@@ -8,6 +8,12 @@ const errorHandler = require("./middleware/errorHandler");
 const trackingMiddleware = require("./middleware/trackingMiddleware");
 const statsRoutes = require("./routes/stats");
 const turn = require("./routes/turn");
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://localhost:3001', // URL do frontend
+  credentials: true
+}));
 
 app.use(express.json());
 

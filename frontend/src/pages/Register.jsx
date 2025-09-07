@@ -3,7 +3,7 @@ import { FaUser, FaEnvelope, FaKey } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
+  const [name, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -20,10 +20,10 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch("/api/players", {
+     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/players`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       if (response.ok) {
@@ -90,7 +90,7 @@ const Register = () => {
           <input
             type="text"
             placeholder="Username"
-            value={username}
+            value={name}
             onChange={e => setUsername(e.target.value)}
             style={{
               border: "none",

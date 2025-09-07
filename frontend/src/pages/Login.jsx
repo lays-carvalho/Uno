@@ -3,7 +3,7 @@ import { FaUser, FaKey } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -12,10 +12,10 @@ const Login = () => {
     e.preventDefault();
     setError("");
     try {
-      const response = await fetch("/api/players/login", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/players/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
       if (response.ok) {
         // Se quiser salvar token ou dados, faça aqui
@@ -81,8 +81,8 @@ const Login = () => {
           <input
             type="text"
             placeholder="Username"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             style={{
               border: "none",
               outline: "none",
