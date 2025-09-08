@@ -152,7 +152,7 @@ export default function GameLobby() {
       console.error(err);
     }
 
-    setTimeout(() => navigate("/"), 800);
+    setTimeout(() => navigate("/games"), 800);
   };
 
   // ------------------- COPIAR CÓDIGO DO JOGO -------------------

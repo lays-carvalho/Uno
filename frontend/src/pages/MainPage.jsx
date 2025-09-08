@@ -74,7 +74,7 @@ export default function MainPage() {
             HOW<br />TO<br />PLAY
           </button>
 
-          <button className="zoom-card play" onClick={() => navigate("/play")}>
+          <button className="zoom-card play" onClick={() => navigate("/games")}>
             PLAY
           </button>
 

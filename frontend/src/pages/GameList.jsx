@@ -1,175 +1,144 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./GameList.css";
 import unoLogo from "../Assets/Uno-Logo.png";
 import CreateGameModal from "./CreateGameModal";
 import EnterGameModal from "./EnterGameModal";
 
+const BASE = process.env.REACT_APP_API_URL || "http://localhost:3000";
+const COLORS = ["#8CB028", "#6CA3D2", "#E2B633", "#C93827"];
+
 const GameList = () => {
   const [games, setGames] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [hoverButton, setHoverButton] = useState("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEnterModal, setShowEnterModal] = useState(false);
   const [newGameName, setNewGameName] = useState("");
   const [gameCode, setGameCode] = useState("");
 
-  const addGame = () => {
-    if (!newGameName.trim()) return;
+  const navigate = useNavigate();
 
-    const newGame = {
-      id: games.length + 1,
-      name: newGameName,
-      players: 0,
-      maxPlayers: 4,
-      color: ["#8cb028", "#6ca3d2", "#E2B633", "#C93827"][games.length % 4],
-    };
-
-    setGames([...games, newGame]);
-    setNewGameName("");
-    setShowCreateModal(false);
+  // ------------------- FETCH GAMES -------------------
+  const fetchGames = async () => {
+    try {
+      const res = await fetch(`${BASE}/api/games`);
+      if (!res.ok) throw new Error("Erro ao buscar jogos");
+      const data = await res.json();
+      setGames(data);
+    } catch (err) {
+      console.error("Erro ao buscar jogos:", err);
+    }
   };
 
-  const enterGame = () => {
-    if (!gameCode.trim()) return;
+  useEffect(() => {
+    fetchGames();
+    const interval = setInterval(fetchGames, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-    // Por enquanto só simula a entrada
-    alert(`Entrando no jogo com código: ${gameCode}`);
+  // ------------------- CREATE GAME -------------------
+  const addGame = async () => {
+    if (!newGameName.trim()) return;
 
-    setGameCode("");
-    setShowEnterModal(false);
+    try {
+      const accessToken = localStorage.getItem("token");
+      if (!accessToken) throw new Error("Usuário não logado");
+
+      const meRes = await fetch(`${BASE}/api/players/me`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken }),
+      });
+      if (!meRes.ok) throw new Error("Erro ao buscar dados do jogador");
+      const meData = await meRes.json();
+
+      const createRes = await fetch(`${BASE}/api/games`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: newGameName,
+          creator: meData.id,
+          status: "not_started",
+          maxPlayers: 4,
+          accessToken,
+        }),
+      });
+      if (!createRes.ok) throw new Error("Erro ao criar jogo");
+
+      const createData = await createRes.json();
+
+      setNewGameName("");
+      setShowCreateModal(false);
+
+      navigate("/lobby/" + createData.game_id);
+
+      fetchGames();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const enterGame = (id) => {
+    navigate("/lobby/" + id);
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#111",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px",
-        position: "relative",
-      }}
-    >
-      {/* Logo */}
-      <img
-        src={UnoLogo}
-        alt="Uno Logo"
-        style={{
-          position: "absolute",
-          top: "2px",
-          left: "2px",
-          width: "100px",
-          height: "auto",
-        }}
-      />
+    <div className="game-list-background">
+      <img src={unoLogo} alt="Uno Logo" className="game-list-logo" />
 
-      {/* Área principal */}
-      <div
-        style={{
-          background: "#3F3F3F",
-          borderRadius: "12px",
-          width: "800px",
-          minHeight: "450px",
-          padding: "20px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
-        }}
-      >
-        {/* Campo de busca */}
+      <div className="game-list-panel">
         <input
           type="text"
           placeholder="SEARCH"
-          style={{
-            width: "80%",
-            padding: "8px",
-            marginBottom: "20px",
-            borderRadius: "8px",
-            border: "none",
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
+          className="game-list-search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        {/* Lista de jogos */}
-        <div
-          style={{
-            width: "100%",
-            maxHeight: "320px",
-            overflowY: "auto",
-            marginBottom: "20px",
-            paddingRight: "6px",
-          }}
-        >
+        <div className="game-list-container">
           {games.length === 0 ? (
-            <p style={{ color: "#ccc", textAlign: "center" }}>
-              Nenhum jogo disponível
-            </p>
+            <p className="no-games-text">Nenhum jogo disponível</p>
           ) : (
-            games.map((game) => (
-              <div
-                key={game.id}
-                style={{
-                  background: game.color,
-                  borderRadius: "6px",
-                  padding: "12px 16px",
-                  marginBottom: "12px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                  color: "#fff",
-                  cursor: "pointer",
-                }}
-              >
-                <span>{game.name}</span>
-                <span>{`${game.players} / ${game.maxPlayers}`}</span>
-              </div>
-            ))
+            games
+              .filter((game) =>
+                game.title.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((game, index) => (
+                <div
+                  key={game._id}
+                  className="game-card"
+                  style={{ background: COLORS[index % COLORS.length] }}
+                  onClick={() => enterGame(game.id)}
+                >
+                  <span>{game.title}</span>
+                  <span>{`${(game.players?.length || 0)} / ${game.maxPlayers}`}</span>
+                </div>
+              ))
           )}
         </div>
 
-        {/* Botões */}
-        <div style={{ display: "flex", gap: "16px", marginTop: "auto" }}>
+        <div className="game-list-buttons">
           <button
+            className={`game-btn ${hoverButton === "create" ? "hover" : ""}`}
             onClick={() => setShowCreateModal(true)}
             onMouseEnter={() => setHoverButton("create")}
             onMouseLeave={() => setHoverButton("")}
-            style={{
-              background: hoverButton === "create" ? "#444" : "#666",
-              color: "#fff",
-              padding: "10px 20px",
-              borderRadius: "8px",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: "bold",
-              transition: "background 0.3s",
-            }}
           >
             CREATE GAME
           </button>
 
           <button
+            className={`game-btn ${hoverButton === "enter" ? "hover" : ""}`}
             onClick={() => setShowEnterModal(true)}
             onMouseEnter={() => setHoverButton("enter")}
             onMouseLeave={() => setHoverButton("")}
-            style={{
-              background: hoverButton === "enter" ? "#444" : "#666",
-              color: "#fff",
-              padding: "10px 20px",
-              borderRadius: "8px",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: "bold",
-              transition: "background 0.3s",
-            }}
           >
             ENTER GAME
           </button>
         </div>
       </div>
 
-      {/* Modais */}
       {showCreateModal && (
         <CreateGameModal
           newGameName={newGameName}
@@ -183,7 +152,7 @@ const GameList = () => {
         <EnterGameModal
           gameCode={gameCode}
           setGameCode={setGameCode}
-          onEnter={enterGame}
+          onEnter={() => enterGame(gameCode)}
           onCancel={() => setShowEnterModal(false)}
         />
       )}
