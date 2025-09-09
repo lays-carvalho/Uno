@@ -25,6 +25,33 @@ async function findScoresByGameId(gameId) {
   return await Score.find({ gameId });
 }
 
+async function findScoresByPlayerId(playerId) {
+  try {
+    return await Score.find({ playerId: playerId });
+  } catch (error) {
+    console.error("Error finding scores by playerId:", error);
+    throw error;
+  }
+}
+
+async function findAllScoresGroupedByPlayer() {
+  try {
+    return await Score.aggregate([
+      {
+        $group: {
+          _id: "$playerId",
+          wins: { $sum: { $cond: [{ $eq: ["$result", "win"] }, 1, 0] } },
+          losses: { $sum: { $cond: [{ $eq: ["$result", "loss"] }, 1, 0] } },
+          totalGames: { $sum: 1 }
+        }
+      },
+      { $sort: { wins: -1 } } // Ordena por vitórias (descendente)
+    ]);
+  } catch (error) {
+    console.error("Error grouping scores by player:", error);
+    throw error;
+  }
+}
 
 module.exports = {
   saveScore,
@@ -32,5 +59,7 @@ module.exports = {
   updateScoreById,
   deleteScoreById,
   findAllScores,
-  findScoresByGameId
+  findScoresByGameId,
+  findScoresByPlayerId,
+  findAllScoresGroupedByPlayer
 };

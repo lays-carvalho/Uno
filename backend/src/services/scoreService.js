@@ -1,76 +1,91 @@
-const getNextId = require("../utils/getNextId");
-const repository = require("../repositories/scoreRepository");
-const repoPlayer = require("../repositories/playerRepository");
-const repoGame = require("../repositories/gameRepository");
+const scoreRepository = require("../repositories/scoreRepository");
 const AppError = require("../utils/appError");
 
 async function createScore(data) {
-  const id = await getNextId("scoreid");
-
-  const player = await repoPlayer.findPlayerById(data.playerId);
-  if (!player) {
-    throw new AppError("Player not found", 404);
-  }
-
-  const game = await repoGame.findGameById(data.gameId);
-  if (!game) {
-    throw new AppError("Game not found", 404);
-  }
-
-  const score = {
-    id: id,
-    playerId: data.playerId,
-    gameId: data.gameId,
-    score: data.score,
-  };
-
-  return await repository.saveScore(score);
+  return await scoreRepository.saveScore(data);
 }
 
 async function getScore(id) {
-  const score = await repository.findScoreById(id);
-  if (!score) {
-    throw new AppError("Score not found", 404);
-  }
-
+  const score = await scoreRepository.findScoreById(id);
+  if (!score) throw new AppError("Score not found", 404);
   return score;
 }
 
 async function updateScore(id, updates) {
-  const score = await repository.findScoreById(id);
-  if (!score) {
-    throw new AppError("Score not found", 404);
-  }
-
-  return await repository.updateScoreById(id, updates);
+  return await scoreRepository.updateScoreById(id, updates);
 }
 
 async function deleteScore(id) {
-  const score = await repository.findScoreById(id);
-  if (!score) {
-    throw new AppError("Score not found", 404);
-  }
-
-  return await repository.deleteScoreById(id);
+  return await scoreRepository.deleteScoreById(id);
 }
 
 async function getAllScores() {
-  return await repository.findAllScores();
+  return await scoreRepository.findAllScores();
 }
 
 async function getScoresByGameId(gameId) {
-  const scoreDocs = await repository.findScoresByGameId(gameId);
-  const scores = {};
+  return await scoreRepository.findScoresByGameId(gameId);
+}
 
-  scoreDocs.forEach((doc, index) => {
-    const label = `Player${index + 1} - ${doc.playerId}`;
-    scores[label] = doc.score;
-  });
+async function getPlayerMetrics(playerId) {
+  try {
+    const scores = await scoreRepository.findScoresByPlayerId(playerId);
+    
+    const wins = scores.filter(score => score.result === "win").length;
+    const loss = scores.filter(score => score.result === "loss").length;
+    const total = wins + loss;
+    
+    return {
+      wins,
+      loss, 
+      total
+    };
+  } catch (error) {
+    console.error("Error getting player metrics:", error);
+    return {
+      wins: 0,
+      loss: 0,
+      total: 0
+    };
+  }
+}
 
-  return {
-    game_id: gameId,
-    scores,
-  };
+// NOVA FUNÇÃO: Ranking Global
+async function getGlobalRanking() {
+  try {
+    const playerStats = await scoreRepository.findAllScoresGroupedByPlayer();
+    
+    const ranking = await Promise.all(
+      playerStats.map(async (stat) => {
+        return {
+          playerId: stat._id,
+          wins: stat.wins,
+          losses: stat.losses,
+          totalGames: stat.totalGames
+        };
+      })
+    );
+    
+    return ranking;
+  } catch (error) {
+    console.error("Error getting global ranking:", error);
+    throw new AppError("Error retrieving global ranking", 500);
+  }
+}
+
+// NOVA FUNÇÃO: Vitórias por Jogador
+async function getVictoriesByPlayer() {
+  try {
+    const playerStats = await scoreRepository.findAllScoresGroupedByPlayer();
+    
+    return playerStats.reduce((acc, stat) => {
+      acc[stat._id] = { win: stat.wins, lose: stat.losses };
+      return acc;
+    }, {});
+  } catch (error) {
+    console.error("Error getting victories by player:", error);
+    throw new AppError("Error retrieving victories by player", 500);
+  }
 }
 
 module.exports = {
@@ -80,4 +95,7 @@ module.exports = {
   deleteScore,
   getAllScores,
   getScoresByGameId,
+  getPlayerMetrics,
+  getGlobalRanking,
+  getVictoriesByPlayer 
 };
