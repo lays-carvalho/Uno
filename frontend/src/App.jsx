@@ -8,6 +8,7 @@ import AboutUs from "./pages/AboutUs";
 import Profile from "./pages/ProfilePage";
 import Lobby from "./pages/GameLobby"
 import GamesList from "./pages/GameList"
+import Ranking from "./pages/Ranking"
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/games" element={<GamesList />} />
       <Route path="/lobby/:id" element={<Lobby />} />
-      {/* copie as rotas acima e vão colocando abaixo com o nome das páginas pra criar a url */}
+      <Route path="/Ranking" element={<Ranking />} />
     </Routes>
   );
 }

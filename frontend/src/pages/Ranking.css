@@ -1,0 +1,117 @@
+.ranking-page {
+  background: #141414;
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Cabin", sans-serif;
+}
+
+.ranking-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200px 80px 20px 80px;
+  background: linear-gradient(to bottom, #141414 50%, rgba(20, 20, 20, 0) 100%);
+  z-index: 10;
+}
+
+.uno-logo {
+  width: 120px;
+  height: auto;
+}
+
+.ranking-title {
+  font-size: 40px;
+  color: #ffffff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;
+}
+
+.ranking-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  background: #e2b633;
+  border-radius: 28px;
+  padding: 12px 20px;
+}
+
+.ranking-position {
+  font-size: 22px;
+  font-weight: bold;
+  color: #000;
+  margin-right: 500px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.ranking-username {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 60px;
+}
+
+.ranking-username .field-pill {
+  min-width: 180px;
+  padding: 6px 20px;
+  background-color: #cbccce;
+}
+
+.ranking-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.field-pill {
+  border-radius: 14px;
+  padding: 6px 12px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #000;
+  text-align: center;
+  min-width: 80px;
+}
+
+.stat-total {
+  background-color: #6ca3d2;
+}
+
+.stat-win {
+  background-color: #8cb028;
+}
+
+.stat-lost {
+  background-color: #c93827;
+}
+
+.ranking-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #aaa;
+  font-weight: 500;
+  padding: 40px;
+}
+
+.ranking-empty-face {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
