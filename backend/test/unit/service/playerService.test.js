@@ -3,7 +3,16 @@ const repository = require("../../../src/repositories/playerRepository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const BlacklistedToken = require("../../../src/models/tokensModel");
-const playerService = require("../../../src/services/playerService");
+const {
+  createPlayer,
+  getPlayer,
+  updatePlayer,
+  deletePlayer,
+  getAllPlayers,
+  postPlayerInfo, // ← CORRIGIDO: importe postPlayerInfo
+  login,
+  logout
+} = require("../../../src/services/playerService"); // ← importação correta
 
 jest.mock("../../../src/utils/getNextId");
 jest.mock("../../../src/repositories/playerRepository");
@@ -26,7 +35,7 @@ describe("Player Service", () => {
       const savedPlayer = { id: "1", ...data, password: "hashed123" };
       repository.savePlayer.mockResolvedValue(savedPlayer);
 
-      const result = await playerService.createPlayer(data);
+      const result = await createPlayer(data); // ← CORRIGIDO
 
       expect(getNextId).toHaveBeenCalledWith("playerid");
       expect(repository.findPlayerByEmail).toHaveBeenCalledWith(data.email);
@@ -44,7 +53,7 @@ describe("Player Service", () => {
       repository.findPlayerByEmail.mockResolvedValue({ id: "1" });
       const data = { name: "John", email: "john@test.com", password: "1234" };
 
-      await expect(playerService.createPlayer(data)).rejects.toThrow(
+      await expect(createPlayer(data)).rejects.toThrow( // ← CORRIGIDO
         "User already exists with this email.",
       );
     });
@@ -55,7 +64,7 @@ describe("Player Service", () => {
       const mockPlayer = { id: "1", name: "John" };
       repository.findPlayerById.mockResolvedValue(mockPlayer);
 
-      const result = await playerService.getPlayer("1");
+      const result = await getPlayer("1"); // ← CORRIGIDO
 
       expect(repository.findPlayerById).toHaveBeenCalledWith("1");
       expect(result).toEqual(mockPlayer);
@@ -68,7 +77,7 @@ describe("Player Service", () => {
       const updated = { id: "1", name: "Jane" };
       repository.updatePlayerById.mockResolvedValue(updated);
 
-      const result = await playerService.updatePlayer("1", updates);
+      const result = await updatePlayer("1", updates); // ← CORRIGIDO
 
       expect(repository.updatePlayerById).toHaveBeenCalledWith("1", updates);
       expect(result).toEqual(updated);
@@ -79,7 +88,7 @@ describe("Player Service", () => {
     test("should delete by id", async () => {
       repository.deletePlayerById.mockResolvedValue(true);
 
-      const result = await playerService.deletePlayer("1");
+      const result = await deletePlayer("1"); // ← CORRIGIDO
 
       expect(repository.deletePlayerById).toHaveBeenCalledWith("1");
       expect(result).toBe(true);
@@ -91,7 +100,7 @@ describe("Player Service", () => {
       const mockPlayers = [{ id: "1" }];
       repository.findAllPlayers.mockResolvedValue(mockPlayers);
 
-      const result = await playerService.getAllPlayers();
+      const result = await getAllPlayers(); // ← CORRIGIDO
 
       expect(repository.findAllPlayers).toHaveBeenCalled();
       expect(result).toEqual(mockPlayers);
@@ -106,7 +115,7 @@ describe("Player Service", () => {
       const mockPlayer = { id: "1", name: "John" };
       repository.findPlayerById.mockResolvedValue(mockPlayer);
 
-      const result = await playerService.getPlayerInfo(token);
+      const result = await postPlayerInfo(token); // ← CORRIGIDO
 
       expect(BlacklistedToken.findOne).toHaveBeenCalledWith({ token });
       expect(jwt.verify).toHaveBeenCalledWith(token, "secret");
@@ -114,7 +123,7 @@ describe("Player Service", () => {
     });
 
     test("should return error if token isn't provided", async () => {
-      await expect(playerService.getPlayerInfo(null)).rejects.toThrow(
+      await expect(postPlayerInfo(null)).rejects.toThrow( // ← CORRIGIDO
         "Access token is required",
       );
     });
@@ -123,7 +132,7 @@ describe("Player Service", () => {
       const token = "blacklisted.token";
       BlacklistedToken.findOne.mockResolvedValue({ token });
 
-      await expect(playerService.getPlayerInfo(token)).rejects.toThrow(
+      await expect(postPlayerInfo(token)).rejects.toThrow( // ← CORRIGIDO
         "Token is invalidated",
       );
     });
@@ -136,7 +145,7 @@ describe("Player Service", () => {
       bcrypt.compare.mockResolvedValue(true);
       jwt.sign.mockReturnValue("signed.token");
 
-      const result = await playerService.login("john@test.com", "1234");
+      const result = await login("john@test.com", "1234"); // ← CORRIGIDO
 
       expect(repository.findPlayerByEmail).toHaveBeenCalledWith(
         "john@test.com",
@@ -154,7 +163,7 @@ describe("Player Service", () => {
       bcrypt.compare.mockResolvedValue(false);
 
       await expect(
-        playerService.login("john@test.com", "wrong"),
+        login("john@test.com", "wrong"), // ← CORRIGIDO
       ).rejects.toThrow("Invalid credentials");
     });
   });
@@ -166,7 +175,7 @@ describe("Player Service", () => {
       const mockBlacklisted = { token, expiresAt: new Date(1700000000 * 1000) };
       BlacklistedToken.create.mockResolvedValue(mockBlacklisted);
 
-      const result = await playerService.logout(token);
+      const result = await logout(token); // ← CORRIGIDO
 
       expect(jwt.decode).toHaveBeenCalledWith(token);
       expect(BlacklistedToken.create).toHaveBeenCalledWith({

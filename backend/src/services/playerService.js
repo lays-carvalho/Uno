@@ -78,6 +78,9 @@ async function logout(accessToken) {
     token: accessToken,
     expiresAt: new Date(exp),
   });
+  async function getPlayerInfo(accessToken) {
+  return await postPlayerInfo(accessToken);
+}
 }
 
 module.exports = {
@@ -85,6 +88,7 @@ module.exports = {
   getPlayer,
   updatePlayer,
   deletePlayer,
+  postPlayerInfo,
   getAllPlayers,
   postPlayerInfo, // João Neto(ToDo): modificado para Post
   login,
