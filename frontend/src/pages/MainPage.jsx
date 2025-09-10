@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import unoLogo from "./Uno Logo.png";
+import unoLogo from "../Assets/Uno-Logo.png";
 import Unauthorized from "../components/Unauthorized";
 import "./MainPage.css";
 

@@ -9,6 +9,7 @@ import Profile from "./pages/ProfilePage";
 import Lobby from "./pages/GameLobby"
 import GamesList from "./pages/GameList"
 import Ranking from "./pages/Ranking"
+import GamePag from "./pages/InComing"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/games" element={<GamesList />} />
       <Route path="/lobby/:id" element={<Lobby />} />
       <Route path="/Ranking" element={<Ranking />} />
+      <Route path="/Game/:id" element={<GamePag />} />
     </Routes>
   );
 }

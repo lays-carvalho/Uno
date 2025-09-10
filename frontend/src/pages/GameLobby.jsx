@@ -6,7 +6,7 @@ import crowIcon from "../Assets/crow-icon.png";
 import leaveIcon from "../Assets/leave-icon.png";
 import copyIcon from "../Assets/copy-icon.png";
 
-const BASE = process.env.REACT_APP_API_URL || "http://localhost:3000";
+const BASE = process.env.REACT_APP_API_URL;
 
 export default function GameLobby() {
   const [game, setGame] = useState(null);
@@ -70,11 +70,16 @@ export default function GameLobby() {
   // ------------------- FETCH GAME -------------------
   const fetchGame = useCallback(async () => {
     if (!userId) return;
-
     try {
       const res = await fetch(`${BASE}/api/games/${id}`);
       if (!res.ok) throw new Error("Erro ao buscar sala");
       const data = await res.json();
+
+      // Redireciona automaticamente se o jogo estiver ativo e o usuário estiver dentro
+      if (data.status === "active" && data.players.includes(Number(userId))) {
+        navigate(`/game/${id}`);
+        return;
+      }
 
       await joinGame(data);
 
@@ -116,7 +121,7 @@ export default function GameLobby() {
     } catch (err) {
       console.error(err);
     }
-  }, [id, userId, joinGame]);
+  }, [id, userId, joinGame, navigate]);
 
   useEffect(() => {
     const interval = setInterval(fetchGame, 3000);
@@ -193,18 +198,31 @@ export default function GameLobby() {
   // ------------------- START GAME -------------------
   const startGame = async () => {
     if (!game || !userId) return;
+
     try {
-      await fetch(`${BASE}/api/games/startGame`, {
+      const res = await fetch(`${BASE}/api/games/startGame`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId: Number(id), accessToken: token }),
+        body: JSON.stringify({
+          gameId: Number(id),
+          accessToken: token,
+        }),
       });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Erro ao iniciar o jogo");
+      }
+
+      const data = await res.json();
+      navigate(`/game/${id}`);
     } catch (err) {
-      console.error(err);
+      console.error("Erro ao iniciar jogo:", err);
+      alert("Não foi possível iniciar o jogo.");
     }
   };
 
-  if (!game) return <div className="lobby-loading">Carregando sala...</div>;
+  if (!game) return <div className="lobby-loading">Something is wrong, sorry...</div>;
 
   const userPlayer = players.find((p) => p.id === userId);
 
