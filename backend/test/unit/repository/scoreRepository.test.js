@@ -4,6 +4,41 @@ const repository = require("../../../src/repositories/scoreRepository");
 
 jest.mock("../../../src/models/scoreModel");
 
+
+describe("findScoresByPlayerId", () => {
+  test("Should find scores by player ID", async () => {
+    const playerId = "1";
+    const mockScores = [
+      { playerId: "1", gameId: "game1", result: "win" },
+      { playerId: "1", gameId: "game2", result: "loss" }
+    ];
+
+    Score.find.mockResolvedValue(mockScores);
+
+    const result = await findScoresByPlayerId(playerId);
+
+    expect(Score.find).toHaveBeenCalledWith({ playerId: playerId });
+    expect(result).toHaveLength(2);
+    expect(result[0].playerId).toBe("1");
+  });
+
+  test("Should return empty array if no scores found", async () => {
+    const playerId = "999";
+    Score.find.mockResolvedValue([]);
+
+    const result = await findScoresByPlayerId(playerId);
+
+    expect(result).toHaveLength(0);
+  });
+
+  test("Should throw error on database failure", async () => {
+    const playerId = "1";
+    Score.find.mockRejectedValue(new Error("Database error"));
+
+    await expect(findScoresByPlayerId(playerId)).rejects.toThrow("Database error");
+  });
+});
+
 describe("Score Repository", () => {
   beforeEach(() => {
     jest.clearAllMocks();

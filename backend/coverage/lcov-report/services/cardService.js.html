@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>21/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>21/24</span>
             </div>
         
             
@@ -123,7 +123,23 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -141,11 +157,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -163,7 +194,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,6 +215,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const getNextId = require("../utils/getNextId");
 const repository = require("../repositories/cardRepository");
+const AppError = require("../utils/appError");
 &nbsp;
 async function createCard(data) {
   const id = await getNextId("cardid");
@@ -193,21 +224,36 @@ async function createCard(data) {
     id: id.toString(),
     color: data.color,
     value: data.value,
-    gameId: data.gameId
+    gameId: data.gameId,
   };
 &nbsp;
   return await repository.saveCard(card);
 }
 &nbsp;
 async function getCard(id) {
-  return await repository.findCardById(id);
+  const card = await repository.findCardById(id);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!card) {
+<span class="cstat-no" title="statement not covered" >    throw new AppError("Card not found", 404);</span>
+  }
+&nbsp;
+  return card;
 }
 &nbsp;
 async function updateCard(id, updates) {
+  const card = await repository.findCardById(id);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!card) {
+<span class="cstat-no" title="statement not covered" >    throw new AppError("Card not found", 404);</span>
+  }
+&nbsp;
   return await repository.updateCardById(id, updates);
 }
 &nbsp;
 async function deleteCard(id) {
+  const card = await repository.findCardById(id);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!card) {
+<span class="cstat-no" title="statement not covered" >    throw new AppError("Card not found", 404);</span>
+  }
+&nbsp;
   return await repository.deleteCardById(id);
 }
 &nbsp;
@@ -219,7 +265,7 @@ async function getTopCard(gameId) {
   const card = await repository.getTopDiscardCard(gameId);
 &nbsp;
   if (!card) {
-    throw new Error("No card found for this game");
+    throw new AppError("No card found for this game", 400);
   }
 &nbsp;
   return {
@@ -234,14 +280,13 @@ async function getTopCard(gameId) {
   };
 }
 &nbsp;
-&nbsp;
 module.exports = {
   createCard,
   getCard,
   updateCard,
   deleteCard,
   getAllCards,
-  getTopCard
+  getTopCard,
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -250,7 +295,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-10T23:35:20.050Z
+                at 2025-09-10T00:19:08.104Z
             </div>
         <script src="../prettify.js"></script>
         <script>
