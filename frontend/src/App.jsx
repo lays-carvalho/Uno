@@ -19,13 +19,15 @@ function App() {
       <Route path="/main" element={<MainPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/aboutus-public" element={<AboutUs backTo="/" />} />
+      <Route path="/aboutus-private" element={<AboutUs backTo="/main" />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/games" element={<GamesList />} />
       <Route path="/lobby/:id" element={<Lobby />} />
       <Route path="/Ranking" element={<Ranking />} />
       <Route path="/Game/:id" element={<GamePag />} />
-      <Route path="/how-to-play" element={<HowToPlay />} />
+      <Route path="/how-to-play-public" element={<HowToPlay backTo="/" />} />
+      <Route path="/how-to-play-private" element={<HowToPlay backTo="/main" />} />
     </Routes>
   );
 }

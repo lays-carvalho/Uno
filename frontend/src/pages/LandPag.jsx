@@ -8,10 +8,10 @@ function LandPag() {
   const navigate = useNavigate();
 
   const menuItems = [
-    { label: "HOW TO PLAY", color: "green", onClick: navigate => navigate("/how-to-play") },
+    { label: "HOW TO PLAY", color: "green", onClick: navigate => navigate("/how-to-play-public") },
     { label: "LOGIN", color: "blue", onClick: navigate => navigate("/login") },
     { label: "REGISTER", color: "red", onClick: navigate => navigate("/register") },
-    { label: "ABOUT US", color: "yellow", onClick: navigate => navigate("/aboutus") },
+    { label: "ABOUT US", color: "yellow", onClick: navigate => navigate("/aboutus-public") },
   ];
 
   return (

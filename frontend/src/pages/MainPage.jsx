@@ -70,7 +70,7 @@ export default function MainPage() {
 
       <div className="center">
         <div className="cards">
-          <button className="zoom-card how-to-play" onClick={() => navigate("/how-to-play")}>
+          <button className="zoom-card how-to-play" onClick={() => navigate("/how-to-play-private")}>
             HOW<br />TO<br />PLAY
           </button>
 
@@ -86,7 +86,7 @@ export default function MainPage() {
 
       <div className="about-wrapper">
         <div className="about-bg"></div>
-        <button className="about-btn" onClick={() => navigate("/aboutus")}>
+        <button className="about-btn" onClick={() => navigate("/aboutus-private")}>
           ABOUT US
         </button>
       </div>

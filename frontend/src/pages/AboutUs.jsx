@@ -36,16 +36,14 @@ function TeamCard({ member }) {
   );
 }
 
-export default function AboutUs() {
+export default function AboutUs({ backTo }) {
   usePageTitle("UNO - ABOUT US");
-
-  const token = localStorage.getItem("token");
-  const backPath = token ? "/main" : "/";
 
   return (
     <div className="team-background">
       <img src={unoLogo} alt="UNO Logo" className="uno-logo-fixed" />
-      <BackButton to={backPath} />
+      <BackButton to={backTo} />
+
       <div className="team-panel">
         <h1 className="team-title">PROGRAMMING 4 CAPSTONE - UNO</h1>
         <div className="team-grid">
@@ -57,3 +55,4 @@ export default function AboutUs() {
     </div>
   );
 }
+
