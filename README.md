@@ -1,61 +1,60 @@
-![Uno Logo](<./frontend/public/Uno Logo.png>)
+![UNO Logo](./frontend/public/Uno%20Logo.png)
 
-## Backend - About the project
+# UNO 
 
-This repository contains both the backend and frontend of the UNO project, a game inspired by the famous card game, developed with Node.js, MongoDB, and Docker.
+This project is a digital version of the classic **UNO card game**.
 
-The backend’s goal is to provide a REST API to manage players, matches, and scores, integrating with a MongoDB database.
+The application is divided into **Frontend** and **Backend**, communicating through a REST API and using **MongoDB** as the database.
 
----
+
+
+## Project Overview
+
+- Online UNO game
+- User authentication (JWT)
+- Game logic and rules
+- Ranking system
+- Web interface
+
+
 
 ## Technologies Used
 
-- [Node.js](https://nodejs.org/) (20+)
-- [Express](https://expressjs.com/) (^5.1.0)
-- [MongoDB](https://www.mongodb.com/)
-- [Docker](https://www.docker.com/)
-- [Mongoose](https://mongoosejs.com/) (^8.16.5)
-- [JWT](https://jwt.io/) (^9.0.2)
+### Backend
+- Node.js (20+)
+- Express
+- MongoDB
+- Mongoose
+- JWT (authentication)
+- Docker
+- dotenv
+
+### Frontend
+- JavaScript (ES6+)
+- React (Create React App)
+- React Router DOM
+- React Icons
+- CSS
+
+
+
+## ⚙️ How to Run the Project
+
+### 1- Clone the repository
+
+```
+git clone <repository-url>
+cd capstone-uno
+```
 
 ---
 
-## Project Structure
+## Backend Setup
 
-```
-
-capstone-uno/
-│
-└── backend/
-    ├── src/            # API source code
-    ├── models/         # Mongoose models
-    ├── services/       # Business logic
-    ├── handlers/       # Route controllers
-    ├── routes/         # Route definitions
-    ├── test/           # Automated tests
-    ├── .env.example    # Example environment variable configuration
-    ├── package.json    # Project dependencies
-    └── server.js       # Application entry point
-
-```
-
----
-
-## How to run
-
-### Clone the Repository
-
-```bash
-git clone https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-4-cspr-244.ga.t2.25.m1/se-o-b/projeto-final/grupo-1/capstone-uno/-/tree/development-backend?ref_type=heads
-```
-
-### Start docker with MongoDB
+### 2- Start MongoDB with Docker
 
 Make sure Docker Desktop is installed and running.
-If you are on Linux, just ensure the Docker service is running properly.
-
-To start a MongoDB container:
-
-```bash
+```
 docker run --name grupo1-mongo \
   -p 27017:27017 \
   -e MONGO_INITDB_ROOT_USERNAME=admin \
@@ -63,32 +62,26 @@ docker run --name grupo1-mongo \
   -d mongo
 ```
 
-This command creates and starts a MongoDB container exposed on port **27017**.
+### 3- Configure environment variables
 
-### Setup .env file
-
-Create a file called `.env` in `backend/`:
-
-```env
+Create a .env file inside the backend/ folder:
+```
 DATABASE_URL=mongodb://admin:admin@localhost:27017/uno-db?authSource=admin
 JWT_SECRET=capstone-uno
 ```
 
-### Installing dependencies
-
-```bash
+### 4- Install backend dependencies
+```
+cd backend
 npm install
 ```
 
-### Running the API
-
-To run the API, go in `backend` folder and execute:
-
-```bash
+### 5- Run the backend API
+```
 npm run dev
 ```
 
-If everything is correct, I'll see:
+If everything is correct, you should see:
 
 ```
 Servidor rodando na porta 3000
@@ -97,17 +90,56 @@ Conectado ao MongoDB com sucesso!
 
 ---
 
-## Testing the API
+## Frontend Setup
 
-### Postman or Insomnia
+### 6- Install frontend dependencies
 
-- **Base URL:** `http://localhost:3000`
-- Import the file `UNO.postman_collection.json` to test all the endpoints.
+Open a new terminal:
+```
+cd frontend
+npm install
+```
 
-### Execute the unit tests
+### 7- Run the frontend
+```
+npm start
+```
 
-To run the unit tests, go in `backend` folder and execute:
 
-```bash
+The application will open at:
+```
+http://localhost:3000
+```
+
+## API Testing
+
+You can test the backend API using Postman or Insomnia.
+
+- Base URL: http://localhost:3000
+
+- Import the file UNO.postman_collection.json
+
+To run automated tests:
+```
+cd backend
 npm test
 ```
+
+
+## 👥 Team
+
+- Professor: Bruno Santos Cezario
+
+- Practitioner: Adrian Fernandez
+
+- Backend: João Neto, Lays Carvalho, Rafael Macedo
+
+- Frontend: Laura Victória, Maria Alice Freitas, Pedro Carneiro
+
+
+## Contato
+
+- 📧 Email: lays.carvalho.dev@gmail.com  
+- 💼 LinkedIn: https://www.linkedin.com/in/lays-cruz-carvalho/ 
+- 💻 GitHub: https://github.com/lays-carvalho
+
