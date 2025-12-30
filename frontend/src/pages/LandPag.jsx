@@ -8,7 +8,7 @@ function LandPag() {
   const navigate = useNavigate();
 
   const menuItems = [
-    { label: "HOW TO PLAY", color: "green", onClick: () => {} },
+    { label: "HOW TO PLAY", color: "green", onClick: navigate => navigate("/how-to-play") },
     { label: "LOGIN", color: "blue", onClick: navigate => navigate("/login") },
     { label: "REGISTER", color: "red", onClick: navigate => navigate("/register") },
     { label: "ABOUT US", color: "yellow", onClick: navigate => navigate("/aboutus") },

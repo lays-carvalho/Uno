@@ -10,6 +10,7 @@ import Lobby from "./pages/GameLobby"
 import GamesList from "./pages/GameList"
 import Ranking from "./pages/Ranking"
 import GamePag from "./pages/InComing"
+import HowToPlay from "./pages/HowToPlay";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/lobby/:id" element={<Lobby />} />
       <Route path="/Ranking" element={<Ranking />} />
       <Route path="/Game/:id" element={<GamePag />} />
+      <Route path="/how-to-play" element={<HowToPlay />} />
     </Routes>
   );
 }
