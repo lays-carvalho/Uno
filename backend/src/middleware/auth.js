@@ -4,9 +4,9 @@ const { checkIfTokenIsPresent } = require("./checkHeader");
 const { checkIfTokenIsBlacklisted } = require("./checkBlacklist");
 
 async function authMiddleware(req, res, next) {
-  checkIfTokenIsPresent(req);
+  const token = checkIfTokenIsPresent(req); 
 
-  checkIfTokenIsBlacklisted(token);
+  await checkIfTokenIsBlacklisted(token);
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
