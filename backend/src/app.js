@@ -10,8 +10,13 @@ const statsRoutes = require("./routes/stats");
 const turn = require("./routes/turn");
 const cors = require('cors');
 
+app.set("trust proxy", 1);
+
 app.use(cors({
-  origin: 'http://localhost:3001', // URL do frontend
+  origin: [
+    "http://localhost:3000",
+    "https://uno-frontend.onrender.com"
+  ],
   credentials: true
 }));
 
