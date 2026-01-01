@@ -15,7 +15,7 @@ app.set("trust proxy", 1);
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://uno-frontend.onrender.com"
+    "https://uno-frontend-x9vb.onrender.com"
   ],
   credentials: true
 }));
