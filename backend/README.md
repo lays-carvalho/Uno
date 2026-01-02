@@ -1,4 +1,3 @@
-![Uno Logo](<./frontend/public/Uno Logo.png>)
 
 ## Backend - About the project
 
@@ -111,3 +110,7 @@ To run the unit tests, go in `backend` folder and execute:
 ```bash
 npm test
 ```
+
+### 🚀 Online Application
+
+- ⚙️ Backend (API):  https://uno-backend-0pay.onrender.com

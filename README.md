@@ -137,7 +137,23 @@ npm test
 - Frontend: Laura Victória, Maria Alice Freitas, Pedro Carneiro
 
 
-## Contato
+
+## 🚀 Online Application
+
+The application is available online at the links below:
+
+- 🎮 Frontend:  
+  https://uno-frontend-x9vb.onrender.com
+
+- ⚙️ Backend (API):  
+  https://uno-backend-0pay.onrender.com
+  
+
+⚠️ Access the system through the frontend link. 
+The backend is already configured and running in the cloud.
+
+
+## Contact
 
 - 📧 Email: lays.carvalho.dev@gmail.com  
 - 💼 LinkedIn: https://www.linkedin.com/in/lays-cruz-carvalho/ 
