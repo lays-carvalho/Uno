@@ -1,7 +1,7 @@
 
 ## Backend - About the project
 
-This repository contains both the backend and frontend of the UNO project, a game inspired by the famous card game, developed with Node.js, MongoDB, and Docker.
+This repository contains the backend of the UNO project, a game inspired by the famous card game, developed with Node.js, MongoDB, and Docker.
 
 The backend’s goal is to provide a REST API to manage players, matches, and scores, integrating with a MongoDB database.
 
@@ -44,7 +44,7 @@ capstone-uno/
 ### Clone the Repository
 
 ```bash
-git clone https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-4-cspr-244.ga.t2.25.m1/se-o-b/projeto-final/grupo-1/capstone-uno/-/tree/development-backend?ref_type=heads
+git clone https://github.com/lays-carvalho/Uno.git
 ```
 
 ### Start docker with MongoDB
@@ -63,6 +63,9 @@ docker run --name grupo1-mongo \
 ```
 
 This command creates and starts a MongoDB container exposed on port **27017**.
+
+⚠️ Docker is used only for local development.  
+In production, the API runs on Render and connects to MongoDB Atlas.
 
 ### Setup .env file
 
@@ -87,7 +90,7 @@ To run the API, go in `backend` folder and execute:
 npm run dev
 ```
 
-If everything is correct, I'll see:
+If everything is correct, you should see:
 
 ```
 Servidor rodando na porta 3000

@@ -21,17 +21,17 @@ The application is divided into **Frontend** and **Backend**, communicating thro
 ## Technologies Used
 
 ### Backend
-- Node.js (20+)
+- Node.js *(20+)*
 - Express
 - MongoDB
 - Mongoose
-- JWT (authentication)
-- Docker
+- JWT *(authentication)*
 - dotenv
+- Docker *(used only for local development)*
 
 ### Frontend
-- JavaScript (ES6+)
-- React (Create React App)
+- JavaScript *(ES6+)*
+- React *(Create React App)*
 - React Router DOM
 - React Icons
 - CSS
@@ -43,7 +43,7 @@ The application is divided into **Frontend** and **Backend**, communicating thro
 ### 1- Clone the repository
 
 ```
-git clone <repository-url>
+git clone https://github.com/lays-carvalho/Uno.git
 cd capstone-uno
 ```
 
@@ -51,8 +51,19 @@ cd capstone-uno
 
 ## Backend Setup
 
-### 2- Start MongoDB with Docker
+### 2- Configure environment variables
 
+Create a .env file inside the backend/ folder:
+```
+DATABASE_URL=mongodb://admin:admin@localhost:27017/uno-db?authSource=admin
+JWT_SECRET=capstone-uno
+```
+
+⚠️ In production, the application uses MongoDB Atlas instead of a local database.
+
+### 3- (Optional) Start MongoDB with Docker
+
+If you want to run MongoDB locally using Docker:
 Make sure Docker Desktop is installed and running.
 ```
 docker run --name grupo1-mongo \
@@ -62,13 +73,6 @@ docker run --name grupo1-mongo \
   -d mongo
 ```
 
-### 3- Configure environment variables
-
-Create a .env file inside the backend/ folder:
-```
-DATABASE_URL=mongodb://admin:admin@localhost:27017/uno-db?authSource=admin
-JWT_SECRET=capstone-uno
-```
 
 ### 4- Install backend dependencies
 ```
